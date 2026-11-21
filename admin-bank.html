@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Bank — Kwathu 30d</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#F6F8FB;color:#142033;min-height:100vh;display:flex}
+:root{--navy:#071426;--orange:#FF6A00;--border:#E4EAF2;--text2:#667085}
+.side{width:260px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:20}
+.brand{padding:16px;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--navy);border-bottom:1px solid var(--border)}
+.nav{padding:10px;display:flex;flex-direction:column;gap:4px;flex:1;overflow:auto}
+.nav a{padding:10px 12px;border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.nav a.active{background:var(--navy);color:#fff} .nav a.active svg{stroke:#fff}
+.nav-section{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin:12px 8px 4px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:14px 18px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.topbar h1{font-size:18px;font-weight:800;color:var(--navy)}
+.wrap{padding:18px;flex:1;max-width:1200px;margin:0 auto;width:100%}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px} @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}} @media(max-width:600px){.grid{grid-template-columns:1fr 1fr}}
+.stat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px}
+.stat b{font-size:10px;text-transform:uppercase;color:var(--text2)} .stat h2{font-size:20px;font-weight:800;color:var(--navy);margin-top:6px}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px}
+.card h3{font-size:13px;font-weight:800;color:var(--navy)}
+.table{width:100%;overflow:auto;margin-top:10px} table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-size:10px;text-transform:uppercase;color:var(--text2);text-align:left;padding:10px 8px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid #F1F4F8;white-space:nowrap}
+.btn{padding:7px 11px;border-radius:8px;font-size:11px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-navy{background:var(--navy);color:#fff} .btn-orange{background:linear-gradient(135deg,#FF6A00,#FF8C32);color:#fff} .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--navy)} .btn-del{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}
+.badge{font-size:10px;padding:4px 8px;border-radius:20px;font-weight:700} .live{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A} .pending{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}
+.input{padding:10px 11px;border:1px solid var(--border);border-radius:10px;font-size:13px;outline:none;width:100%} .input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,.15)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.bottom{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.bottom-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.bottom a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:10px;font-size:9px;font-weight:600;color:var(--text2);text-decoration:none;cursor:pointer}
+.bottom a.active{background:var(--navy);color:#fff} .bottom a.active svg{stroke:#fff}
+@media(max-width:900px){.side{display:none}.bottom{display:block}.main{padding-bottom:78px}}
+.toast{position:fixed;top:14px;right:14px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:0 12px 30px rgba(7,20,38,.12);min-width:260px}
+.toast-item.ok{background:#F0FDF4;border-color:#BBF7D0} .toast-item.err{background:#FEF2F2;border-color:#FECACA}
+.modal{position:fixed;inset:0;background:rgba(7,20,38,.55);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex} .modal-box{background:#fff;border-radius:16px;border:1px solid var(--border);max-width:360px;width:100%;padding:18px}
+</style>
+</head>
+<body>
+<div class="side">
+<div class="brand"><img src="logo.png" onerror="this.src='https://via.placeholder.com/36'"> Kwathu Campus <span style="font-size:9px;background:var(--navy);color:#fff;padding:2px 6px;border-radius:20px">ADMIN 30d</span></div>
+<div class="nav">
+<div class="nav-section">Admin 30d</div>
+<a href="admin-dashboard.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+<a href="admin-users.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+<a class="active" href="admin-bank.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Bank — Revenue 30d</a>
+<a href="admin-settings.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+</div>
+<div style="padding:12px;border-top:1px solid var(--border)"><a onclick="openLogout()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;color:#DC2626;cursor:pointer;border:1px solid #FECACA;background:#FEF2F2">Logout</a></div>
+</div>
+
+<div class="main">
+<div class="topbar"><h1>Bank — Revenue 30d</h1><div style="display:flex;gap:6px"><button class="btn btn-ghost" onclick="load()">Refresh</button><button class="btn btn-ghost" onclick="openLogout()">Logout</button></div></div>
+<div class="wrap">
+<div class="card" style="background:linear-gradient(135deg,#071426,#102a52);color:#fff;border-color:#071426">
+<h3 style="color:#fff">Bank — Gold MK6k 30d + Platinum MK10k 30d — All 30 Days</h3>
+<div class="grid" style="margin-top:12px">
+<div class="stat" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)"><b style="color:#AAB8CC">Gold Used — 30d</b><h2 id="bGold" style="color:#fff">0</h2><small style="color:#AAB8CC">MK 6,000 each</small></div>
+<div class="stat" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)"><b style="color:#AAB8CC">Plat Used — 30d</b><h2 id="bPlat" style="color:#fff">0</h2><small style="color:#AAB8CC">MK 10,000 each</small></div>
+<div class="stat" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)"><b style="color:#AAB8CC">Total Used</b><h2 id="bTotal" style="color:#fff">0</h2><small style="color:#AAB8CC">All 30d codes</small></div>
+<div class="stat" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)"><b style="color:#AAB8CC">Total MK Bank</b><h2 id="bMK" style="color:#FF8C32">MK 0</h2><small style="color:#AAB8CC">Gold*6k + Plat*10k</small></div>
+</div>
+<div class="row"><input id="resetInput" class="input" placeholder="Reset code: KWATHU-GOLD-..." style="max-width:260px"><button class="btn btn-ghost" style="background:#fff" onclick="resetByInput()">Reset to Unused</button><button class="btn btn-ghost" style="background:#fff" onclick="exportCSV()">Export CSV</button></div>
+</div>
+
+<div class="card"><h3>Bank Features — Calculate by Type + Reset + Delete + Copy</h3><p style="font-size:11px;color:var(--text2)">All codes activation — calculates depending on type. One code at a time. Reset = make unused if payment failed.</p>
+<div class="row"><input id="search" class="input" placeholder="Search code / used_by..." style="max-width:300px" oninput="render()"><select id="filter" class="input" style="max-width:160px" onchange="render()"><option value="">All 30d</option><option value="gold">Gold 30d MK6k</option><option value="platinum">Plat 30d MK10k</option><option value="used">Used Only</option><option value="unused">Unused Only</option></select></div>
+<div class="table"><table><thead><tr><th>Code</th><th>Type 30d</th><th>Status</th><th>Amount MK</th><th>Used By</th><th>Created</th><th>Reset</th><th>Copy/Del</th></tr></thead><tbody id="body"></tbody></table></div>
+</div>
+</div>
+</div>
+
+<div class="bottom"><div class="bottom-inner">
+<a href="admin-dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+<a href="admin-users.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+<a class="active" href="admin-bank.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/></svg>Bank</a>
+<a href="admin-settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="logoutModal"><div class="modal-box"><h3>Logout Admin?</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px"><button class="btn btn-ghost" onclick="closeLogout()">Cancel</button><button class="btn btn-navy" onclick="doLogout('login')">Login</button><button class="btn btn-ghost" style="grid-column:1/-1" onclick="doLogout('home')">Home</button></div></div></div>
+
+<script>
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1",PROJECT_ID:"6ada0bb9000487d3a4d2",DATABASE_ID:"kwathu_db",COLLECTION_CODES:"activation_codes"};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const account=new Appwrite.Account(client);const databases=new Appwrite.Databases(client);
+let all=[];
+function toastMsg(t,title,msg){const c=document.getElementById('toast');const d=document.createElement('div');d.className=`toast-item ${t}`;d.innerHTML=`<div><b style="font-size:12px">${title}</b><div style="font-size:11px;color:#667085">${msg}</div></div>`;c.appendChild(d);setTimeout(()=>d.remove(),4000);}
+function openLogout(){document.getElementById('logoutModal').classList.add('open')}function closeLogout(){document.getElementById('logoutModal').classList.remove('open')}
+async function doLogout(dest){try{await account.deleteSession('current')}catch(e){}sessionStorage.setItem('noAutoRedirect','1');location.href=dest==='home'?'index.html':'login.html?force=1';}
+async function init(){try{await account.get();load();}catch(e){sessionStorage.setItem('noAutoRedirect','1');location.href='login.html?force=1';}}
+async function load(){try{const res=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_CODES,[Appwrite.Query.orderDesc('$createdAt'),Appwrite.Query.limit(100)]);all=res.documents;render();}catch(e){toastMsg('err','Load',e.message)}}
+function render(){
+ const q=document.getElementById('search').value.trim().toLowerCase();const f=document.getElementById('filter').value;
+ let filtered=all.filter(c=>{
+   const txt=(c.code+' '+(c.used_by||'')).toLowerCase();
+   if(q&&!txt.includes(q))return false;
+   if(f==='gold'&&c.plan_type!=='gold')return false;
+   if(f==='platinum'&&c.plan_type!=='platinum')return false;
+   if(f==='used'&&!c.is_used)return false;
+   if(f==='unused'&&c.is_used)return false;
+   return true;
+ });
+ const goldUsed=all.filter(c=>c.is_used&&c.plan_type==='gold').length;const platUsed=all.filter(c=>c.is_used&&c.plan_type==='platinum').length;const total=goldUsed+platUsed;const mk=goldUsed*6000+platUsed*10000;
+ document.getElementById('bGold').innerText=goldUsed;document.getElementById('bPlat').innerText=platUsed;document.getElementById('bTotal').innerText=total;document.getElementById('bMK').innerText='MK '+mk.toLocaleString();
+ document.getElementById('body').innerHTML=filtered.map(c=>{
+   const amt=c.plan_type==='gold'?6000:10000;
+   return `<tr><td style="font-family:monospace;font-weight:700">${c.code}</td><td>${c.plan_type} 30d</td><td>${c.is_used?'<span class="badge pending">Used</span>':'<span class="badge live">Unused</span>'}</td><td>MK ${c.is_used?amt:0}</td><td style="font-size:11px">${c.used_by||'—'}</td><td style="font-size:11px">${new Date(c.$createdAt).toLocaleDateString()}</td><td><button class="btn btn-ghost" onclick="resetCode('${c.$id}')">Reset</button></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost" onclick="copyCode('${c.code}')">Copy</button><button class="btn btn-del" onclick="delCode('${c.$id}')">Del</button></div></td></tr>`;
+ }).join('');
+}
+function copyCode(code){navigator.clipboard.writeText(code);toastMsg('ok','Copied',code);}
+async function delCode(id){if(!confirm('Delete code?'))return;try{await databases.deleteDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_CODES,id);toastMsg('ok','Deleted','Code removed');load();}catch(e){toastMsg('err','Fail',e.message)}}
+async function resetCode(id){if(!confirm('Reset to UNUSED? Bank will recalc'))return;try{await databases.updateDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_CODES,id,{is_used:false,used_by:'',used_at:''});toastMsg('ok','Reset','Code now unused');load();}catch(e){toastMsg('err','Fail',e.message)}}
+async function resetByInput(){const code=document.getElementById('resetInput').value.trim().toUpperCase();if(!code){toastMsg('err','Missing','Enter code');return;}try{const res=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_CODES,[Appwrite.Query.equal('code',code)]);if(!res.documents.length){toastMsg('err','Not found',code);return;}await databases.updateDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_CODES,res.documents[0].$id,{is_used:false,used_by:'',used_at:''});toastMsg('ok','Reset',code+' now unused');load();}catch(e){toastMsg('err','Fail',e.message)}}
+function exportCSV(){let csv='Code,Plan,Used,Amount,UsedBy,Created\n';all.forEach(c=>{const amt=c.plan_type==='gold'?6000:10000;csv+=`${c.code},${c.plan_type},${c.is_used},${c.is_used?amt:0},${c.used_by||''},${c.$createdAt}\n`;});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='kwathu_bank_30d.csv';a.click();toastMsg('ok','Export','CSV downloaded');}
+init();
+// PWA - no watermark
+if('serviceWorker' in navigator){ 
+  navigator.serviceWorker.register('/sw.js'); 
+}
+</script>
+</body>
+</html>

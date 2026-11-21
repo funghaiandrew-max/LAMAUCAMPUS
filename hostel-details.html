@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostel Details - Kwathu Campus LAMAU</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#F6F8FB;color:#142033;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+:root{--navy:#071426;--orange:#FF6A00;--orange2:#FF8C32;--light:#FFF8F0;--light2:#F4F7FB;--border:#E4EAF2;--text2:#667085}
+nav{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:12px 20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--navy)}
+.logo img{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);object-fit:contain;background:#fff}
+.logo span{color:var(--orange)}
+.links{display:flex;gap:18px;align-items:center}
+.links a{font-size:13.5px;color:var(--text2);font-weight:500}.links a.active{color:var(--navy);font-weight:700}.links a:hover{color:var(--orange)}
+.btn{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--navy)} .btn-navy{background:var(--navy);color:#fff} .btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 6px 14px rgba(255,106,0,.25)}
+.menu{display:none}
+@media(max-width:800px){.links{display:none}.links.open{display:flex;position:absolute;top:56px;left:0;right:0;background:#fff;flex-direction:column;padding:18px;border-bottom:1px solid var(--border);box-shadow:0 10px 20px rgba(7,20,38,.07)}.menu{display:block}}
+.wrap{max-width:1100px;margin:0 auto;padding:20px;width:100%;flex:1}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);margin-bottom:14px;cursor:pointer}.back:hover{color:var(--orange)}
+.grid{display:grid;grid-template-columns:1.3fr 0.7fr;gap:20px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.main-img{width:100%;aspect-ratio:16/10;max-height:480px;min-height:260px;border-radius:16px;object-fit:cover;object-position:center;background:var(--light2);border:1px solid var(--border);display:block}
+.thumbs{display:flex;gap:8px;margin-top:12px;overflow:auto;padding-bottom:4px}
+.thumb{width:84px;height:62px;border-radius:10px;object-fit:cover;object-position:center;border:2px solid transparent;cursor:pointer;opacity:.7;flex-shrink:0;transition:.2s}
+.thumb.active{border-color:var(--orange);opacity:1;transform:scale(1.02);border-width:2.5px}
+.title{font-size:26px;font-weight:800;color:var(--navy);margin-top:14px;letter-spacing:-.4px}
+.loc{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:5px;margin-top:6px}
+.meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.badge{font-size:11px;padding:6px 10px;border-radius:20px;background:#fff;border:1px solid var(--border)}
+.badge.ok{background:#FFF4EC;border-color:#FFD8B8;color:var(--orange);font-weight:700}
+.price-box{margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.price{font-size:22px;font-weight:800;color:var(--navy)} .price small{font-size:11px;color:var(--text2);font-weight:500}
+.section{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px}
+.section h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.section p{font-size:13.5px;color:var(--text2);line-height:1.7}
+.fac{display:flex;flex-wrap:wrap;gap:8px}
+.fac span{font-size:11px;background:#FFF8F0;border:1px solid #FFD8B8;padding:6px 10px;border-radius:20px}
+.side{position:sticky;top:74px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;height:fit-content}
+.c-btns{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.c-btns a,.c-btns button{width:100%;justify-content:center;padding:12px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;gap:8px}
+.call{background:var(--navy);color:#fff} .wa{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+footer{margin-top:auto;background:var(--navy);color:#fff;padding:22px 5% 14px}
+.footer-top{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-links h3{font-size:11px;margin-bottom:10px;letter-spacing:.8px;text-transform:uppercase;color:#FFD6B5}
+.footer-links a{display:block;font-size:11px;color:#AAB8CC;margin-bottom:7px}
+.footer-bottom{max-width:1100px;margin:18px auto 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#AAB8CC;font-size:10px}
+@media(max-width:700px){.main-img{aspect-ratio:16/11;max-height:none}.title{font-size:22px}.side{position:static}.wrap{padding:16px 13px}}
+</style>
+</head>
+<body>
+<nav>
+<div class="logo"><img src="logo.png" onerror="this.style.display='none'"> Kwathu Campus <span>LAMAU.</span></div>
+<div class="links" id="links">
+<a href="index.html">Home</a>
+<a href="hostels.html">Browse</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="login.html" class="btn btn-ghost">Login</a>
+<a href="register.html" class="btn btn-navy">List Hostel</a>
+</div>
+<div class="menu btn btn-ghost" onclick="document.getElementById('links').classList.toggle('open')">☰</div>
+</nav>
+<div class="wrap"><div class="back" onclick="history.back()">← Back to LAMAU hostels</div>
+<div id="content" style="padding:40px;text-align:center;color:#667085;font-size:13px">Loading LAMAU hostel...</div>
+</div>
+<footer><div class="footer-top"><div class="footer-brand"><strong>Kwathu Campus <span style="color:#FF6A00">LAMAU.</span></strong></div><div class="footer-links"><h3>Explore</h3><a href="index.html">Home</a><a href="hostels.html">Browse Hostels</a></div><div class="footer-links"><h3>Support</h3><a href="https://wa.me/265988226320">WhatsApp 0988226320</a></div></div><div class="footer-bottom"><span>© <span id="yr"></span> Kwathu Campus LAMAU.</span><span>Powered by <b style="color:#fff">Lost Loyalty Tech</b></span></div></footer>
+<script>
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1",PROJECT_ID:"6ada0bb9000487d3a4d2",DATABASE_ID:"kwathu_db",BUCKET_ID:"hostel_images",COLLECTION:"hostels"};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const databases=new Appwrite.Databases(client);
+document.getElementById('yr').innerText=new Date().getFullYear();
+const id=new URLSearchParams(location.search).get('id');
+
+function filePreview(id,w=200,h=140){return `${CONFIG.ENDPOINT}/storage/buckets/${CONFIG.BUCKET_ID}/files/${id}/preview?width=${w}&height=${h}&gravity=center&quality=80&project=${CONFIG.PROJECT_ID}`;}
+function fileView(id){return `${CONFIG.ENDPOINT}/storage/buckets/${CONFIG.BUCKET_ID}/files/${id}/view?project=${CONFIG.PROJECT_ID}`;}
+
+async function load(){
+ try{
+  const h=await databases.getDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION, id);
+  let fileIds=[];
+  if(Array.isArray(h.image_file_ids) && h.image_file_ids.length) fileIds=h.image_file_ids;
+  else if(h.image_file_id) fileIds=[h.image_file_id];
+  else if(h.images) fileIds=Array.isArray(h.images)?h.images:[h.images];
+  fileIds=[...new Set(fileIds.filter(Boolean))];
+
+  let mainSrc=fileIds.length?fileView(fileIds[0]):'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800';
+  let thumbs=fileIds.map((fid,i)=>`<img class="thumb ${i==0?'active':''}" src="${filePreview(fid,200,140)}" data-view="${fileView(fid)}" data-preview="${filePreview(fid,900,600)}" onclick="setImg('${fileView(fid)}',this)" onerror="if(this.dataset.view){this.src=this.dataset.view}">`).join('');
+
+  const fac=(h.facilities||[]).map(f=>`<span>${f}</span>`).join('')||'<span style="color:#667085">No facilities</span>';
+  const phone=h.contact_phone||h.phone||'';
+  const wa=(h.whatsapp_number||h.whatsapp||phone).toString().replace(/[^0-9]/g,'');
+
+  document.getElementById('content').innerHTML=`
+  <div class="grid"><div>
+    <img id="mainImg" class="main-img" src="${mainSrc}" alt="${h.title}" onerror="handleMainError(this)" data-fallback="${fileIds.length?filePreview(fileIds[0],900,600):''}">
+    <div class="thumbs">${thumbs}</div>
+    <div class="title">${h.title}</div>
+    <div class="loc">📍 ${h.location||'Near LAMAU'} • LAMAU</div>
+    <div class="meta"><span class="badge">${h.room_type||'Shared'}</span><span class="badge ok">${h.availability||'Available'}</span><span class="badge">${h.distance_to_campus||'Near LAMAU'}</span></div>
+    <div class="price-box"><div class="price">MWK ${Number(h.price||0).toLocaleString()} <small>/month</small></div><div style="font-size:11px;color:#667085">${h.gender_preference||''}</div></div>
+    <div class="section"><h3>About — LAMAU</h3><p>${(h.description||'').replace(/\n/g,'<br>')}</p></div>
+    <div class="section"><h3>Facilities</h3><div class="fac">${fac}</div></div>
+  </div>
+  <div class="side"><h3>Contact Landlord</h3><div class="c-btns"><a class="call" href="tel:${phone}">Call ${phone}</a><a class="wa" target="_blank" href="https://wa.me/${wa}?text=Hi%20interested%20in%20${encodeURIComponent(h.title)}">WhatsApp</a></div></div></div>`;
+ }catch(e){document.getElementById('content').innerHTML=`Failed: ${e.message}`;}
+}
+function setImg(viewSrc,el){
+  const main=document.getElementById('mainImg');
+  main.src=viewSrc;
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function handleMainError(img){
+  // if view fails (private bucket), try preview
+  if(img.dataset.fallback && img.src!==img.dataset.fallback){
+    img.src=img.dataset.fallback;
+  }
+}
+load();
+</script>
+</body>
+</html>

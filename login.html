@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Kwathu Campus</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#101828;min-height:100vh;display:flex;flex-direction:column}
+:root{--navy:#071426;--orange:#FF6A00;--border:#E6EAF0}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:20px;color:var(--navy);letter-spacing:-.5px}
+.brand img{width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--border);object-fit:contain}
+.brand span{color:var(--orange)}
+.links{display:flex;gap:8px;align-items:center}
+.links a{font-size:13px;font-weight:600;color:#667085;text-decoration:none;padding:8px 14px;border-radius:10px}
+.links a.btn-dark{background:var(--navy);color:#fff}
+.wrap{flex:1;max-width:1150px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;padding:48px 24px;align-items:center}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;padding:24px 16px;gap:24px}}
+.hero{display:flex;flex-direction:column;gap:18px}
+.logo-big{width:72px;height:72px;border-radius:18px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(7,20,38,.08)}
+.logo-big img{width:52px;height:52px;object-fit:contain}
+.hero h1{font-size:44px;font-weight:900;line-height:.95;letter-spacing:-1.2px;color:var(--navy)}
+.hero h1 span{color:var(--orange)}
+.hero p{font-size:15px;color:#667085;line-height:1.6;max-width:460px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.badges span{font-size:11px;font-weight:700;padding:6px 10px;border-radius:20px;background:#fff;border:1px solid var(--border);color:#344054}
+.card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:0 20px 60px rgba(7,20,38,.08);max-width:420px;width:100%;justify-self:end}
+@media(max-width:900px){.card{max-width:100%;justify-self:stretch}}
+.card h2{font-size:20px;font-weight:800;color:var(--navy)}
+.card .sub{font-size:13px;color:#667085;margin-top:6px}
+.field{margin-top:18px}
+.label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#98A2B3;margin-bottom:8px;display:block}
+.input{position:relative;display:flex;align-items:center;border:1.5px solid var(--border);border-radius:12px;background:#fff;transition:.2s;padding:0 12px}
+.input:focus-within{border-color:var(--navy);box-shadow:0 0 0 4px rgba(7,20,38,.08)}
+.input svg{flex-shrink:0}
+.input input{flex:1;border:none;outline:none;padding:14px 10px;font-size:14px;background:transparent;min-width:0}
+.eye{width:40px;height:40px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:.15s}
+.eye:hover{background:#F2F4F7}
+.eye svg{stroke:#98A2B3;transition:.15s} .eye:hover svg{stroke:#101828}
+.submit{width:100%;margin-top:20px;padding:14px;border:none;border-radius:12px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.submit:hover{background:#102A52;transform:translateY(-1px)}
+.submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.msg{margin-top:14px;padding:12px;border-radius:12px;font-size:13px;display:none;line-height:1.5}
+.msg.err{display:block;background:#FEF2F2;border:1px solid #FECACA;color:#B42318}
+.msg.ok{display:block;background:#F0FDF4;border:1px solid #BBF7D0;color:#027A48}
+.foot{margin-top:18px;text-align:center;font-size:13px;color:#667085}
+.foot a{color:var(--navy);font-weight:700;text-decoration:none}
+.foot a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<nav>
+<div class="brand"><img src="logo.png" onerror="this.src='https://ui-avatars.com/api/?name=K&background=071426&color=fff'">Kwathu Campus</div>
+<div class="links">
+<a href="index.html">Home</a>
+<a href="hostels.html">Browse</a>
+<a href="register.html" class="btn-dark">Create Account</a>
+</div>
+</nav>
+
+<div class="wrap">
+<div class="hero">
+<div class="logo-big"><img src="logo.png" onerror="this.src='https://ui-avatars.com/api/?name=K&background=071426&color=fff'"></div>
+<h1>Welcome back<br><span>Landlord.</span></h1>
+<p>Manage your listings near LAMAU. Students browse free — no account needed. Secure landlord access only.</p>
+<div class="badges"><span>🔒 Landlord Only</span><span>✓ Verified Access</span><span>Support 0988226320</span></div>
+</div>
+
+<div class="card">
+<h2>Sign in</h2>
+<div class="sub">Use your landlord email</div>
+
+<div class="field">
+<span class="label">Email Address</span>
+<div class="input">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+<input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+</div>
+</div>
+
+<div class="field">
+<span class="label">Password</span>
+<div class="input">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+<input id="pass" type="password" placeholder="Enter password" autocomplete="current-password">
+<button class="eye" type="button" onclick="toggle()" aria-label="Show password">
+<svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+</button>
+</div>
+</div>
+
+<button class="submit" id="btnLogin" onclick="login()">Continue →</button>
+
+<div class="msg err" id="err"></div>
+<div class="msg ok" id="ok"></div>
+
+<div class="foot">No account? <a href="register.html">Register as landlord</a></div>
+</div>
+</div>
+
+<script>
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1",PROJECT_ID:"6ada0bb9000487d3a4d2",DATABASE_ID:"kwathu_db",COLLECTION_PROFILES:"landlord_profiles"};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const account=new Appwrite.Account(client);
+const databases=new Appwrite.Databases(client);
+
+function toggle(){
+ const p=document.getElementById('pass');
+ const icon=document.getElementById('eyeIcon');
+ const show=p.type==='password';
+ p.type=show?'text':'password';
+ if(show){
+  // eye-off — Google style
+  icon.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.53 9.53a3 3 0 1 0 4.95 4.95"/><path d="M1 1l22 22"/>';
+ }else{
+  icon.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+ }
+}
+
+async function login(){
+ const email=document.getElementById('email').value.trim().toLowerCase();
+ const pass=document.getElementById('pass').value;
+ const err=document.getElementById('err');const ok=document.getElementById('ok');const btn=document.getElementById('btnLogin');
+ err.style.display='none';ok.style.display='none';
+ if(!email||!pass){err.textContent='Enter email and password';err.style.display='block';return;}
+ btn.disabled=true;btn.textContent='Checking...';
+ try{
+  await account.createEmailPasswordSession(email, pass);
+  const user=await account.get();
+  let profile=null;
+  try{profile=await databases.getDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,user.$id);}catch(e){
+   const list=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,[Appwrite.Query.equal('email',email)]);
+   if(list.documents.length) profile=list.documents[0];
+  }
+  if(!profile){
+   await account.deleteSession('current');
+   throw new Error('Not a landlord account. Please register as landlord first.');
+  }
+  if(!profile.is_verified){
+   try{await databases.updateDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,profile.$id,{is_verified:true});}catch(e){}
+  }
+  ok.textContent='Welcome, redirecting...';ok.style.display='block';
+  sessionStorage.setItem('noAutoRedirect','1');
+  setTimeout(()=>location.href='landlord-dashboard.html',700);
+ }catch(e){
+  err.textContent=e.message;err.style.display='block';
+  try{await account.deleteSession('current')}catch(_){}
+ }finally{btn.disabled=false;btn.textContent='Continue →';}
+}
+
+(async()=>{
+ try{
+  if(sessionStorage.getItem('noAutoRedirect')){sessionStorage.removeItem('noAutoRedirect');return;}
+  if(new URLSearchParams(location.search).has('force')) return;
+  const u=await account.get();
+  if(u){
+   const list=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,[Appwrite.Query.equal('email',u.email)]);
+   if(list.documents.length) location.href='landlord-dashboard.html';
+  }
+ }catch(e){}
+})();
+// PWA - no watermark
+if('serviceWorker' in navigator){ 
+  navigator.serviceWorker.register('/sw.js'); 
+}
+</script>
+</body>
+</html>

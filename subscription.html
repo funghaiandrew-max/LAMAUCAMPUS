@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription — Kwathu Campus LAMAU 30d All</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#F6F8FB;color:#142033;min-height:100vh;display:flex;flex-direction:column}
+:root{--navy:#071426;--orange:#FF6A00;--orange2:#FF8C32;--border:#E4EAF2;--text2:#667085;--light:#fff;--light2:#F4F7FB}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:12px 20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--navy)}
+.logo img{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);object-fit:contain}
+.logo span{color:var(--orange)}
+.btn{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--navy)} .btn-navy{background:var(--navy);color:#fff} .btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 6px 16px rgba(255,106,0,0.25)}
+.wrap{max-width:1120px;margin:0 auto;padding:20px;width:100%;flex:1}
+.head{max-width:720px}
+.head h1{font-size:32px;font-weight:900;color:var(--navy);letter-spacing:-.6px;line-height:.95}
+.head h1 span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.head p{font-size:13.5px;color:var(--text2);margin-top:8px;line-height:1.6}
+.current{margin-top:16px;border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px} @media(max-width:900px){.plans{grid-template-columns:1fr}}
+.plan{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;position:relative;overflow:hidden;transition:.2s;display:flex;flex-direction:column}
+.plan:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(7,20,38,0.08)}
+.plan.popular{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,0.12)}
+.plan.popular::before{content:"MOST POPULAR — 30D";position:absolute;top:12px;right:-32px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-size:9px;font-weight:800;letter-spacing:.6px;padding:4px 36px;transform:rotate(35deg)}
+.plan .top{display:flex;gap:10px;align-items:center}
+.plan .ic{width:40px;height:40px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center}
+.plan .ic.orange{background:linear-gradient(135deg,var(--orange),var(--orange2))}
+.plan h3{font-size:16px;font-weight:800;color:var(--navy)} .plan .price{font-size:28px;font-weight:800;color:var(--navy);margin-top:10px} .plan .price small{font-size:12px;color:var(--text2);font-weight:500}
+.feats{margin-top:12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.feat{font-size:12.5px;display:flex;gap:8px;align-items:center;color:var(--navy)}
+.feat svg{flex-shrink:0}
+.feat.dim{color:var(--text2)}
+.cta{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.msg{margin-top:14px;padding:10px;border-radius:10px;font-size:12px;display:none} .msg.ok{display:block;background:#FFF7ED;border:1px solid #FFD8B8;color:#9A3412} .msg.err{display:block;background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}
+.compare{margin-top:22px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff}
+.compare h3{font-size:13px;font-weight:700;padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.row{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr;gap:10px;padding:10px 14px;font-size:12px;border-bottom:1px solid var(--border)} .row.head{font-weight:700;color:var(--text2);background:var(--light2);font-size:10px;text-transform:uppercase;letter-spacing:.5px} .row b{color:var(--navy)} @media(max-width:600px){.row{grid-template-columns:1fr 1fr 1fr 1fr;font-size:10px}}
+footer{margin-top:auto;background:var(--navy);color:#fff;padding:22px 20px 14px}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#AAB8CC;font-size:10px;max-width:1120px;margin:14px auto 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<nav>
+<div class="logo"><img src="logo.png" onerror="this.src='https://via.placeholder.com/36'"> Kwathu Campus <span>LAMAU.</span></div>
+<div style="display:flex;gap:8px"><a href="landlord-dashboard.html" class="btn btn-ghost">Dashboard</a><a href="activate.html" class="btn btn-navy">Activate Code</a></div>
+</nav>
+<div class="wrap">
+<div class="head">
+<h1>Plans for <span>LAMAU</span> — All 30 Days Only</h1>
+<p>All subscriptions are <b>30 days only</b>. Free trial = manual approval (24h) — 1 hostel, 3 pics. Gold MK6,000 = 3 hostels, 5 pics, auto live. Platinum MK10,000 = 4 hostels, 8 pics, top listing. Codes one-use only — admin <b>funghaiandrew@gmail.com</b>. Hostels auto hidden after 30 days — renew via WhatsApp <b>0988226320</b>.</p>
+<div class="current" id="currentBox">
+<div><div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text2)">Current Plan — 30d All</div><div style="font-size:14px;font-weight:800;color:var(--navy);margin-top:2px" id="curPlan">Loading...</div><div style="font-size:11px;color:var(--text2);margin-top:2px" id="curDetail">—</div></div>
+<div style="display:flex;gap:6px"><a href="https://wa.me/265988226320?text=Hello%20Admin%20LAMAU" target="_blank" class="btn btn-ghost">Message Admin 0988226320</a><a href="activate.html" class="btn btn-orange">Activate Code →</a></div>
+</div>
+</div>
+
+<div class="plans">
+<div class="plan" id="pFree">
+<div class="top"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><div><h3>Free Trial — 30d</h3><div style="font-size:11px;color:var(--text2)">For testing LAMAU</div></div></div>
+<div class="price">Free <small>/ 30 days</small></div>
+<div class="feats">
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg><b>1</b> hostel slot</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg><b>3</b> images per hostel</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg>30 days expiry — all plans</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Manual approval 24h</div>
+</div>
+<div class="cta"><button class="btn btn-ghost" style="justify-content:center" disabled>Auto assigned on register</button></div>
+</div>
+
+<div class="plan popular" id="pGold">
+<div class="top"><div class="ic orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><div><h3>Gold — 30d</h3><div style="font-size:11px;color:var(--text2)">Most LAMAU landlords</div></div></div>
+<div class="price">MK 6,000 <small>/ 30 days</small></div>
+<div class="feats">
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg><b>3</b> hostel slots</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg><b>5</b> images per hostel</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg>30 days — all plans same duration</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg>Auto live after code</div>
+</div>
+<div class="cta"><button class="btn btn-orange" style="justify-content:center" onclick="requestCode('gold')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>Request Gold 30d MK6k</button><a href="activate.html" class="btn btn-ghost" style="justify-content:center">I have code — Activate</a></div>
+</div>
+
+<div class="plan" id="pPlat">
+<div class="top"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><div><h3>Platinum — 30d</h3><div style="font-size:11px;color:var(--text2)">For agents near LAMAU</div></div></div>
+<div class="price">MK 10,000 <small>/ 30 days</small></div>
+<div class="feats">
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg><b>4</b> hostel slots</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg><b>8</b> images per hostel</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg>30 days — same as Free & Gold</div>
+<div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M5 12l5 5l10-10"/></svg>Top LAMAU + auto live</div>
+</div>
+<div class="cta"><button class="btn btn-navy" style="justify-content:center" onclick="requestCode('platinum')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>Request Platinum 30d MK10k</button><a href="activate.html" class="btn btn-ghost" style="justify-content:center">I have code — Activate</a></div>
+</div>
+</div>
+
+<div class="msg ok" id="ok"></div><div class="msg err" id="err"></div>
+
+<div class="compare">
+<h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#071426" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg> Compare — All 30 Days</h3>
+<div class="row head"><div>Feature</div><div>Free 30d</div><div>Gold 30d</div><div>Platinum 30d</div></div>
+<div class="row"><div>Hostel slots</div><div><b>1</b></div><div><b>3</b></div><div><b>4</b></div></div>
+<div class="row"><div>Images per hostel</div><div><b>3</b></div><div><b>5</b></div><div><b>8</b></div></div>
+<div class="row"><div>Expiry — all same</div><div>30d</div><div>30d</div><div>30d</div></div>
+<div class="row"><div>Approval</div><div>Manual 24h</div><div>Auto via code</div><div>Auto via code</div></div>
+<div class="row"><div>Top listing</div><div>—</div><div>—</div><div>Yes — LAMAU top</div></div>
+<div class="row"><div>Code reuse?</div><div>—</div><div>No — one use</div><div>No — one use</div></div>
+<div class="row"><div>Contact</div><div colspan="3"><a href="https://wa.me/265988226320" target="_blank" style="color:var(--orange);font-weight:700">0988226320 WhatsApp</a> • lostloyaltytech@gmail.com • funghaiandrew@gmail.com</div></div>
+</div>
+</div>
+<footer><div style="max-width:1120px;margin:0 auto;width:100%"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><b>Kwathu Campus LAMAU.</b> All 30d only — orange pin home</div><div style="display:flex;gap:14px"><a href="about.html" style="color:#AAB8CC">About</a><a href="terms.html" style="color:#AAB8CC">Terms</a></div></div><div class="footer-bottom"><span>© <span id="yr"></span> Kwathu Campus LAMAU — All rights reserved.</span><span>Powered by <b style="color:#fff">Lost Loyalty Tech</b> — 0988226320</span></div></div></footer>
+<script>
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1", PROJECT_ID:"6ada0bb9000487d3a4d2", DATABASE_ID:"kwathu_db", COLLECTION_PROFILES:"landlord_profiles", ADMIN_WA:"265988226320"};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const account=new Appwrite.Account(client);
+const databases=new Appwrite.Databases(client);
+document.getElementById('yr').innerText=new Date().getFullYear();
+let currentUser=null;
+async function init(){
+ try{ currentUser=await account.get(); const prof=await databases.getDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_PROFILES, currentUser.$id); document.getElementById('curPlan').innerText=prof.plan.toUpperCase()+' 30d • '+prof.max_hostels+' slots • '+prof.max_images+' pics'; document.getElementById('curDetail').innerText='Expires '+new Date(prof.plan_expires_at).toLocaleDateString()+' — ALL 30 DAYS ONLY'; }catch(e){ document.getElementById('curPlan').innerText='Not logged in — LAMAU'; document.getElementById('curDetail').innerText='Login to see plan — all 30d'; }
+}
+function requestCode(plan){
+ const email=currentUser?currentUser.email:'my email';
+ const msg=`Hello Admin, I want ${plan.toUpperCase()} 30-DAY plan for Kwathu Campus LAMAU. My email: ${email}. Send code after payment MK ${plan==='gold'?'6k':'10k'}.`;
+ window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(msg)}`,'_blank');
+ document.getElementById('ok').innerText=`WhatsApp opened to 0988226320 for ${plan.toUpperCase()} 30d MK ${plan==='gold'?'6,000':'10,000'}. After payment admin sends KWATHU-${plan.toUpperCase()}-XXXX (one use). Then Activate.`; document.getElementById('ok').style.display='block';
+}
+init();
+// PWA - no watermark
+if('serviceWorker' in navigator){ 
+  navigator.serviceWorker.register('/sw.js'); 
+}
+</script>
+</body>
+</html>

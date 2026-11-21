@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse Hostels | Kwathu Campus LAMAU</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<meta name="description" content="Discover verified hostels near LAMAU - LAMAU only. Compare prices with Kwathu Campus LAMAU.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+:root{--navy:#071426;--orange:#FF6A00;--orange2:#FF8C32;--white:#fff;--light:#FFF8F0;--light2:#F6F8FB;--border:#E4EAF2;--text:#142033;--text2:#667085;--radius:16px;--shadow:0 8px 28px rgba(7,20,38,.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--light2);color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.5}
+button,input,select{font:inherit} a{color:inherit;text-decoration:none} button{cursor:pointer}
+nav{position:sticky;top:0;z-index:100;height:68px;padding:0 5%;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800;color:var(--navy);white-space:nowrap}
+.logo img{width:36px;height:36px;object-fit:contain;border-radius:9px;border:1px solid var(--border)}
+.logo span{color:var(--orange)}
+.links{display:flex;align-items:center;gap:22px}
+.links>a:not(.btn){font-size:13px;font-weight:600;color:var(--text2);transition:.2s} .links>a:hover,.links>a.active{color:var(--orange)}
+.btn{border:0;border-radius:10px;padding:11px 16px;font-size:13px;font-weight:700;display:inline-flex;justify-content:center;align-items:center;gap:8px;transition:.2s}
+.btn-primary{background:var(--navy);color:#fff} .btn-primary:hover{background:#102a52;transform:translateY(-1px)}
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 6px 16px rgba(255,106,0,.25)}
+.btn-outline{background:#fff;color:var(--navy);border:1px solid var(--border)} .btn-outline:hover{border-color:var(--orange);color:var(--orange)}
+.menu-btn{display:none;width:42px;height:42px;border:1px solid var(--border);background:#fff;border-radius:11px;align-items:center;justify-content:center}
+.wrap{width:100%;max-width:1240px;padding:28px 24px 40px;margin:auto;flex:1}
+.hero{position:relative;overflow:hidden;border-radius:22px;min-height:275px;background:linear-gradient(90deg,rgba(7,20,38,.96) 0%,rgba(7,20,38,.86) 45%,rgba(7,20,38,.12) 100%),url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=85') center 48%/cover;color:#fff;padding:38px;display:flex;align-items:center}
+.hero-content{position:relative;z-index:1;max-width:570px}
+.eyebrow{display:inline-block;color:#FFD6B5;font-size:11px;letter-spacing:1.5px;font-weight:800;margin-bottom:12px;text-transform:uppercase}
+.hero h1{font-size:clamp(29px,4vw,42px);line-height:1.16;letter-spacing:-1.3px;margin-bottom:12px;max-width:520px}
+.hero h1 span{color:var(--orange2)}
+.hero p{font-size:14px;line-height:1.8;color:#E0E9F7;max-width:480px}
+.search-panel{position:relative;z-index:2;background:#fff;border:1px solid var(--border);border-radius:17px;padding:14px;margin-top:-26px;margin-left:20px;margin-right:20px;box-shadow:0 12px 35px rgba(7,20,38,.10)}
+.search-row{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(130px,1fr) minmax(130px,1fr) auto;gap:10px}
+.field{min-width:0;position:relative;display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:#fff;border-radius:11px;padding:0 12px;min-height:48px;transition:.2s}
+.field:focus-within{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,.12)}
+.field svg{flex-shrink:0;color:var(--text2)} .field input,.field select{width:100%;min-width:0;border:0;outline:none;background:transparent;color:var(--text);font-size:12px} .field select{cursor:pointer}
+.search-btn{min-height:48px;white-space:nowrap}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:27px 4px;border-bottom:1px solid var(--border)}
+.benefit{display:flex;align-items:center;gap:11px;padding:0 15px}
+.benefit-icon{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:13px;background:#FFF0E5;color:var(--orange)}
+.benefit strong{display:block;font-size:12px;margin-bottom:3px} .benefit p{font-size:11px;color:var(--text2);line-height:1.6}
+.results-layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:24px;margin-top:28px;align-items:start}
+.filters{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:sticky;top:88px}
+.filter-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:20px}
+.filter-heading h2{font-size:14px;font-weight:800}
+.text-button{border:0;background:transparent;color:var(--orange);font-size:11px;font-weight:700}
+.filter-group{padding-bottom:18px;margin-bottom:17px;border-bottom:1px solid var(--border)} .filter-group:last-of-type{border-bottom:0;margin-bottom:0}
+.filter-group h3{font-size:11px;font-weight:800;margin-bottom:11px}
+.price-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px} .price-inputs input{min-width:0;width:100%;padding:10px 8px;border:1px solid var(--border);border-radius:8px;font-size:11px;outline:none}
+.check-list{display:grid;gap:11px} .check-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#475467;cursor:pointer} .check-row input{accent-color:var(--orange);width:15px;height:15px;flex-shrink:0}
+.filter-actions{display:grid;gap:8px;margin-top:8px} .filter-actions .btn{width:100%}
+.results-main{min-width:0} .results-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:17px}
+.results-heading h2{font-size:20px;font-weight:800;letter-spacing:-.5px} .results-heading p{font-size:12px;color:var(--text2);margin-top:4px}
+.sort-box{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text2);white-space:nowrap} .sort-box select{max-width:175px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:11px;outline:none}
+.mobile-filter-toggle{display:none}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.card{min-width:0;background:#fff;border:1px solid var(--border);border-radius:15px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#FFD8B8}
+.card-image-wrap{aspect-ratio:16/11;position:relative;overflow:hidden;background:#E8EEF6;border-bottom:1px solid var(--border)}
+.card-image{width:100%;height:100%;display:block;object-fit:cover;object-position:center center;transition:.35s}
+.card:hover .card-image{transform:scale(1.03)}
+.status{position:absolute;top:11px;left:11px;padding:6px 10px;border-radius:7px;background:#FFF7ED;color:var(--orange);font-size:10px;font-weight:800;border:1px solid #FFD8B8}
+.card-content{padding:15px} .card-title{font-size:14px;font-weight:800;line-height:1.5;color:var(--navy);overflow-wrap:anywhere}
+.card-location{display:flex;align-items:flex-start;gap:5px;margin-top:6px;font-size:11px;color:var(--text2)} .card-location svg{flex-shrink:0;margin-top:1px;color:var(--orange)}
+.price-row{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin-top:12px} .price{color:var(--orange);font-size:17px;font-weight:800;overflow-wrap:anywhere} .price-period{color:var(--text2);font-size:11px}
+.card-meta{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:10px} .meta-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border-radius:7px;background:#FFF4EC;color:#475467;font-size:10px}
+.card-bottom{margin-top:15px} .view-btn{width:100%;padding:11px 12px;border-radius:9px;background:var(--navy);color:#fff;border:0;font-size:12px;font-weight:700;transition:.2s;text-align:center;display:block} .view-btn:hover{background:var(--orange)}
+.state-box{grid-column:1/-1;text-align:center;padding:45px 20px;background:#fff;border:1px dashed var(--border);border-radius:15px;color:var(--text2)}
+.spinner{width:28px;height:28px;margin:0 auto 14px;border:3px solid #E4EAF2;border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite} @keyframes spin{to{transform:rotate(360deg)}}
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:25px} .page-btn{min-width:36px;height:36px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--text);font-size:12px;font-weight:700} .page-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)} .page-btn:disabled{opacity:.4;cursor:not-allowed}
+.landlord-banner{position:relative;overflow:hidden;margin-top:36px;padding:26px;border-radius:17px;background:linear-gradient(110deg,#071426,#FF6A00);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.landlord-banner h2{font-size:20px;margin-bottom:6px} .landlord-banner p{color:#FFEAD5;font-size:12px;max-width:500px;line-height:1.7} .landlord-banner .btn{flex-shrink:0;background:#fff;color:var(--navy)}
+footer{margin-top:auto;background:var(--navy);color:#fff;padding:30px 5% 18px}
+.footer-top{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:25px}
+.footer-brand{max-width:280px} .footer-brand strong{font-size:16px} .footer-brand p{color:#AAB8CC;font-size:11px;line-height:1.8;margin-top:9px}
+.footer-links h3{font-size:12px;margin-bottom:11px} .footer-links a{display:block;font-size:11px;color:#AAB8CC;margin-bottom:8px} .footer-links a:hover{color:#fff}
+.footer-bottom{max-width:1240px;margin:24px auto 0;padding-top:15px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#AAB8CC;font-size:10px}
+.filter-backdrop{display:none}
+@media(max-width:950px){.results-layout{grid-template-columns:205px minmax(0,1fr);gap:16px} .search-row{grid-template-columns:1.5fr 1fr 1fr} .search-btn{grid-column:1/-1} .benefit{padding:0 6px}}
+@media(max-width:700px){
+nav{height:62px;padding:0 16px} .logo{font-size:17px} .logo img{width:32px;height:32px} .menu-btn{display:flex}
+.links{display:none;position:absolute;top:61px;left:0;right:0;padding:16px;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 10px 20px rgba(7,20,38,.07);flex-direction:column;align-items:stretch;gap:0} .links.open{display:flex} .links>a:not(.btn){padding:12px 8px} .links .btn{margin-top:8px}
+.wrap{padding:16px 13px 30px} .hero{min-height:245px;padding:24px 19px;border-radius:16px} .hero h1{font-size:31px} .hero p{font-size:12px}
+.search-panel{margin:-17px 7px 0;padding:12px;border-radius:14px} .search-row{grid-template-columns:1fr;gap:9px} .field{min-height:47px} .search-btn{grid-column:auto;width:100%}
+.benefits{grid-template-columns:1fr;gap:14px;padding:23px 5px} .benefit{padding:0 5px}
+.results-layout{display:block;margin-top:23px}
+.filters{display:none;position:fixed;z-index:201;left:0;right:0;bottom:0;top:auto;max-height:83dvh;overflow-y:auto;border-radius:20px 20px 0 0;padding:23px 19px;box-shadow:0 -12px 45px rgba(7,20,38,.2);border-bottom:0}
+.filters.mobile-open{display:block} .filter-backdrop.open{display:block;position:fixed;z-index:200;inset:0;background:rgba(7,20,38,.55)}
+.mobile-filter-toggle{display:inline-flex} .results-heading{align-items:flex-start;flex-wrap:wrap;gap:12px} .results-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%}
+.grid{grid-template-columns:1fr;gap:14px} .card-content{padding:14px} .card-title{font-size:15px} .price{font-size:18px}
+.landlord-banner{flex-direction:column;align-items:flex-start;padding:22px;margin-top:27px} .landlord-banner .btn{width:100%}
+.footer-top{display:grid;grid-template-columns:1fr 1fr;gap:25px 15px} .footer-brand{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+<nav>
+<a class="logo" href="index.html"><img src="logo.png" alt="" onerror="this.style.display='none'">Kwathu Campus <span>LAMAU.</span></a>
+<div class="links" id="navLinks"><a href="index.html">Home</a><a href="hostels.html" class="active">Browse Hostels</a><a href="about.html">About Us</a><a href="contact.html">Contact</a><a href="login.html" class="btn btn-outline">Login</a><a href="register.html" class="btn btn-orange">List Your Hostel</a></div>
+<button class="menu-btn" id="menuBtn" aria-label="Toggle navigation"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+</nav>
+<main class="wrap">
+<section class="hero"><div class="hero-content"><span class="eyebrow">LAMAU • Orange pin • Verified</span><h1>Find a Hostel That Fits Your <span>Lifestyle near LAMAU.</span></h1><p>Explore LAMAU accommodation, compare prices, discover facilities, and find options that suit your budget. Expired listings auto hidden.</p></div></section>
+<section class="search-panel"><form id="searchForm"><div class="search-row">
+<label class="field"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6"/><path d="m21 21-4.3-4.3"/></svg><input id="q" type="search" placeholder="Search name or location near LAMAU..." aria-label="Search"></label>
+<label class="field"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.4-1.5-3-1.5-1.4 0-2.5.7-2.5 1.8 0 3 5.5 1.2 5.5 4.3 0 1.2-1.2 2.1-3 2.1-1.4 0-2.6-.5-3.2-1.6M12 6v12"/></svg><select id="budget"><option value="">Any budget</option><option value="20000">Up to MWK 20,000</option><option value="30000">Up to MWK 30,000</option><option value="40000">Up to MWK 40,000</option><option value="50000">Up to MWK 50,000</option><option value="75000">Up to MWK 75,000</option><option value="100000">Up to MWK 100,000</option></select></label>
+<label class="field"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M8 5v15"/></svg><select id="roomType"><option value="">Any room type</option><option value="single">Single</option><option value="shared">Shared</option><option value="self-contained">Self-contained</option><option value="other">Other</option></select></label>
+<button type="submit" class="btn btn-primary search-btn">Search Hostels</button>
+</div></form></section>
+<section class="benefits"><div class="benefit"><div class="benefit-icon">🔍</div><div><strong>Easy Discovery</strong><p>Explore LAMAU accommodation in one place.</p></div></div><div class="benefit"><div class="benefit-icon">🏷️</div><div><strong>Compare Prices</strong><p>Find options that suit your budget.</p></div></div><div class="benefit"><div class="benefit-icon">ℹ️</div><div><strong>Clear Info</strong><p>Verified landlords near LAMAU.</p></div></div></section>
+<section class="results-layout">
+<aside class="filters" id="filtersPanel"><div class="filter-heading"><h2>Filter LAMAU Hostels</h2><button type="button" class="text-button" id="clearFilters">Clear all</button></div>
+<div class="filter-group"><h3>Monthly price (MWK)</h3><div class="price-inputs"><input type="number" id="minPrice" placeholder="Minimum" min="0"><input type="number" id="maxPrice" placeholder="Maximum" min="0"></div></div>
+<div class="filter-group"><h3>Room type</h3><div class="check-list"><label class="check-row"><input type="checkbox" name="roomFilter" value="single"> Single room</label><label class="check-row"><input type="checkbox" name="roomFilter" value="shared"> Shared room</label><label class="check-row"><input type="checkbox" name="roomFilter" value="self-contained"> Self-contained</label><label class="check-row"><input type="checkbox" name="roomFilter" value="other"> Other</label></div></div>
+<div class="filter-group"><h3>Facilities</h3><div class="check-list"><label class="check-row"><input type="checkbox" name="facility" value="wi-fi"> Wi-Fi</label><label class="check-row"><input type="checkbox" name="facility" value="water"> Water supply</label><label class="check-row"><input type="checkbox" name="facility" value="electricity"> Electricity</label><label class="check-row"><input type="checkbox" name="facility" value="security"> Security</label><label class="check-row"><input type="checkbox" name="facility" value="laundry"> Laundry</label><label class="check-row"><input type="checkbox" name="facility" value="kitchen"> Kitchen</label><label class="check-row"><input type="checkbox" name="facility" value="study space"> Study space</label><label class="check-row"><input type="checkbox" name="facility" value="parking"> Parking</label></div></div>
+<div class="filter-actions"><button type="button" class="btn btn-orange" id="applyFilters">Apply Filters</button><button type="button" class="btn btn-outline" id="closeFilters">Close Filters</button></div>
+</aside>
+<div class="filter-backdrop" id="filterBackdrop"></div>
+<div class="results-main"><div class="results-heading"><div><h2>Available Hostels — LAMAU</h2><p id="count">Loading hostels...</p></div><div class="results-toolbar"><button type="button" class="btn btn-outline mobile-filter-toggle" id="openFilters">Filters</button><label class="sort-box">Sort:<select id="sort"><option value="newest">Recently added</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option></select></label></div></div><div class="grid" id="grid"><div class="state-box"><div class="spinner"></div><h3>Finding hostels...</h3></div></div><div class="pagination" id="pagination"></div></div>
+</section>
+<section class="landlord-banner"><div><h2>Own a Hostel Near LAMAU?</h2><p>Help LAMAU students discover your accommodation. List your hostel — Free trial manual approval, Gold/Platinum auto live.</p></div><a href="register.html" class="btn">List Your Hostel →</a></section>
+</main>
+<footer><div class="footer-top"><div class="footer-brand"><strong>Hostel Hunt <span style="color:#FF6A00">MW</span> — LAMAU.</strong><p>Helping LAMAU students discover accommodation near campus. Orange pin = home.</p></div><div class="footer-links"><h3>Explore</h3><a href="index.html">Home</a><a href="hostels.html">Browse Hostels</a><a href="about.html">About Us</a></div><div class="footer-links"><h3>Support</h3><a href="https://wa.me/265988226320">WhatsApp 0988226320</a></div></div><div class="footer-bottom"><span>© <span id="year"></span> Kwathu Campus LAMAU.</span><span>Powered by <b style="color:#fff">Lost Loyalty Tech</b></span></div></footer>
+<script>
+"use strict";
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1", PROJECT_ID:"6ada0bb9000487d3a4d2", DATABASE_ID:"kwathu_db", BUCKET_ID:"hostel_images", COLLECTION:"hostels"};
+const PAGE_SIZE=8;
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const databases=new Appwrite.Databases(client);
+let allHostels=[],filteredHostels=[],currentPage=1,loadFailed=false;
+const $=id=>document.getElementById(id);
+$("year").textContent=new Date().getFullYear();
+$("menuBtn").addEventListener("click",()=>{$("navLinks").classList.toggle("open")});
+
+function openFilterDrawer(){$("filtersPanel").classList.add("mobile-open");$("filterBackdrop").classList.add("open");document.body.style.overflow="hidden"}
+function closeFilterDrawer(){$("filtersPanel").classList.remove("mobile-open");$("filterBackdrop").classList.remove("open");document.body.style.overflow=""}
+$("openFilters").addEventListener("click",openFilterDrawer);$("closeFilters").addEventListener("click",closeFilterDrawer);$("filterBackdrop").addEventListener("click",closeFilterDrawer);
+
+function normalise(v){return String(v??"").trim().toLowerCase()}
+function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function formatPrice(v){const n=Number(v);if(!Number.isFinite(n)||n<0)return"Price on request";return"MWK "+n.toLocaleString("en-US")}
+function getRoomType(h){return normalise(h.room_type??h.roomType??"")}
+function getFacilities(h){const raw=h.facilities??[];if(Array.isArray(raw))return raw.map(normalise);return[]}
+function getCreatedTime(h){return Date.parse(h.$createdAt||"")||0}
+function isExpired(h){if(!h.expires_at)return false;return new Date(h.expires_at)<new Date()}
+
+// FIXED IMAGE LOGIC - main pic = first selected pic, uses view (always works) + preview fallback
+function getFileIds(h){
+  let ids=[];
+  if(Array.isArray(h.image_file_ids) && h.image_file_ids.length) ids=h.image_file_ids;
+  else if(h.image_file_id) ids=[h.image_file_id];
+  else if(h.images) ids=Array.isArray(h.images)?h.images:[h.images];
+  return [...new Set(ids.filter(Boolean))];
+}
+function fileView(fid){return `${CONFIG.ENDPOINT}/storage/buckets/${CONFIG.BUCKET_ID}/files/${fid}/view?project=${CONFIG.PROJECT_ID}`;}
+function filePreview(fid,w=600,h=400){return `${CONFIG.ENDPOINT}/storage/buckets/${CONFIG.BUCKET_ID}/files/${fid}/preview?width=${w}&height=${h}&gravity=center&quality=75&project=${CONFIG.PROJECT_ID}`;}
+function getImageURL(h){
+  const ids=getFileIds(h);
+  if(!ids.length) return "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=900&q=80";
+  // USE VIEW - guaranteed to show first selected pic exactly as posted
+  return fileView(ids[0]);
+}
+
+async function loadHostels(){
+ showLoading();
+ try{
+  const response=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION,[Appwrite.Query.equal("is_approved",true),Appwrite.Query.orderDesc("$createdAt"),Appwrite.Query.limit(100)]);
+  allHostels=(response.documents||[]).filter(d=>!isExpired(d));
+  loadFailed=false;applyFilters();
+ }catch(error){
+  loadFailed=true;console.error(error);$("count").textContent="Unable to load listings";
+  $("grid").innerHTML=`<div class="state-box"><h3>We couldn't load hostels</h3><p>${error.message}</p><br><button type="button" class="btn btn-primary" id="retryLoad">Try Again</button></div>`;
+  $("pagination").innerHTML="";document.getElementById("retryLoad")?.addEventListener("click",loadHostels);
+ }
+}
+function showLoading(){$("count").textContent="Loading LAMAU listings...";$("grid").innerHTML=`<div class="state-box"><div class="spinner"></div><h3>Finding hostels near LAMAU...</h3></div>`}
+
+function applyFilters(){
+ const query=normalise($("q").value);const searchBudget=$("budget").value;const searchRoomType=normalise($("roomType").value);
+ const minPrice=$("minPrice").value===""?null:Number($("minPrice").value);const maxPrice=$("maxPrice").value===""?null:Number($("maxPrice").value);
+ const selectedRooms=[...document.querySelectorAll('input[name="roomFilter"]:checked')].map(i=>normalise(i.value));
+ const selectedFacilities=[...document.querySelectorAll('input[name="facility"]:checked')].map(i=>normalise(i.value));
+ filteredHostels=allHostels.filter(h=>{
+  const title=normalise(h.title);const location=normalise(h.location);
+  const matchesSearch=!query||title.includes(query)||location.includes(query);
+  const price=Number(h.price);const matchesBudget=!searchBudget||(Number.isFinite(price)&&price<=Number(searchBudget));
+  const roomType=getRoomType(h);const matchesSearchRoom=!searchRoomType||roomType===searchRoomType;
+  const matchesRoomFilter=selectedRooms.length===0||selectedRooms.includes(roomType);
+  const matchesMin=minPrice===null||(Number.isFinite(price)&&price>=minPrice);const matchesMax=maxPrice===null||(Number.isFinite(price)&&price<=maxPrice);
+  const facilities=getFacilities(h);const matchesFacilities=selectedFacilities.every(f=>facilities.some(item=>item.includes(f)));
+  return matchesSearch&&matchesBudget&&matchesSearchRoom&&matchesRoomFilter&&matchesMin&&matchesMax&&matchesFacilities;
+ });
+ sortHostels();currentPage=1;renderHostels();
+}
+function sortHostels(){
+ const sortValue=$("sort").value;
+ if(sortValue==="price-low"){filteredHostels.sort((a,b)=>(Number(a.price)||0)-(Number(b.price)||0))}
+ else if(sortValue==="price-high"){filteredHostels.sort((a,b)=>(Number(b.price)||0)-(Number(a.price)||0))}
+ else if(sortValue==="name"){filteredHostels.sort((a,b)=>String(a.title||"").localeCompare(String(b.title||"")))}
+ else{filteredHostels.sort((a,b)=>getCreatedTime(b)-getCreatedTime(a))}
+}
+function renderHostels(){
+ const total=filteredHostels.length;const totalPages=Math.max(1,Math.ceil(total/PAGE_SIZE));if(currentPage>totalPages)currentPage=totalPages;
+ const start=(currentPage-1)*PAGE_SIZE;const pageItems=filteredHostels.slice(start,start+PAGE_SIZE);
+ $("count").textContent=`${total} ${total===1?"hostel":"hostels"} found near LAMAU`;
+ if(total===0){$("grid").innerHTML=`<div class="state-box"><h3>No matching hostels</h3><br><button type="button" class="btn btn-orange" id="emptyClear">Clear Filters</button></div>`;$("pagination").innerHTML="";document.getElementById("emptyClear")?.addEventListener("click",clearFilters);return}
+ $("grid").innerHTML=pageItems.map(createHostelCard).join("");
+ // handle error -> try preview fallback
+ document.querySelectorAll(".card-image").forEach(img=>{
+   img.addEventListener("error",()=>{
+     const fid=img.dataset.fid;
+     if(fid && !img.dataset.tried){
+       img.dataset.tried="1";
+       img.src=filePreview(fid,600,400);
+     } else {
+       img.src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=900&q=80";
+     }
+   },{once:false});
+ });
+ renderPagination(totalPages);
+}
+function createHostelCard(hostel){
+ const id=String(hostel.$id||"");const title=escapeHTML(hostel.title||"Unnamed Hostel");const location=escapeHTML(hostel.location||"LAMAU");const price=formatPrice(hostel.price);
+ const ids=getFileIds(hostel);
+ const firstId=ids[0]||"";
+ const image=escapeHTML(getImageURL(hostel));
+ const roomType=getRoomType(hostel);const facilities=getFacilities(hostel);
+ const roomLabel={"single":"Single","shared":"Shared","self-contained":"Self-contained","other":"Other"}[roomType]||(roomType?roomType:"");
+ const visibleFacilities=facilities.slice(0,3);
+ const facilityHTML=visibleFacilities.map(f=>`<span class="meta-tag">${escapeHTML(f)}</span>`).join("");
+ const roomHTML=roomLabel?`<span class="meta-tag">${escapeHTML(roomLabel)}</span>`:"";
+ const detailsURL="hostel-details.html?id="+encodeURIComponent(id);
+ return `<article class="card"><a href="${detailsURL}"><div class="card-image-wrap"><img class="card-image" src="${image}" data-fid="${firstId}" alt="Photo of ${title}" loading="lazy"><div class="status">LAMAU • Verified</div></div></a><div class="card-content"><h3 class="card-title"><a href="${detailsURL}">${title}</a></h3><div class="card-location"><span>${location}</span></div><div class="price-row"><span class="price">${escapeHTML(price)}</span><span class="price-period">/ month</span></div><div class="card-meta">${roomHTML}${facilityHTML}</div><div class="card-bottom"><a class="view-btn" href="${detailsURL}">View Details →</a></div></div></article>`;
+}
+function renderPagination(totalPages){
+ const container=$("pagination");if(totalPages<=1){container.innerHTML="";return}
+ let html=`<button class="page-btn" data-page="${currentPage-1}" ${currentPage===1?"disabled":""}>‹</button>`;
+ for(let p=1;p<=totalPages;p++){html+=`<button class="page-btn ${p===currentPage?"active":""}" data-page="${p}">${p}</button>`}
+ html+=`<button class="page-btn" data-page="${currentPage+1}" ${currentPage===totalPages?"disabled":""}>›</button>`;
+ container.innerHTML=html;container.querySelectorAll("[data-page]").forEach(b=>{b.addEventListener("click",()=>{const page=Number(b.dataset.page);if(page<1||page>totalPages)return;currentPage=page;renderHostels();document.querySelector(".results-main").scrollIntoView({behavior:"smooth"})})});
+}
+function clearFilters(){$("q").value="";$("budget").value="";$("roomType").value="";$("minPrice").value="";$("maxPrice").value="";$("sort").value="newest";document.querySelectorAll('input[name="roomFilter"],input[name="facility"]').forEach(i=>i.checked=false);currentPage=1;applyFilters();closeFilterDrawer()}
+$("clearFilters").addEventListener("click",clearFilters);$("applyFilters").addEventListener("click",()=>{applyFilters();closeFilterDrawer()});
+$("searchForm").addEventListener("submit",e=>{e.preventDefault();applyFilters();});let searchTimer;$("q").addEventListener("input",()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>applyFilters(),200)});$("sort").addEventListener("change",()=>applyFilters());$("budget").addEventListener("change",applyFilters);$("roomType").addEventListener("change",applyFilters);
+loadHostels();
+</script>
+</body>
+</html>

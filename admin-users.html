@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Users — Kwathu 30d</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#F6F8FB;color:#142033;min-height:100vh;display:flex}
+:root{--navy:#071426;--orange:#FF6A00;--border:#E4EAF2;--text2:#667085}
+.side{width:260px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:20}
+.brand{padding:16px;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--navy);border-bottom:1px solid var(--border)}
+.brand img{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);object-fit:contain}
+.nav{padding:10px;display:flex;flex-direction:column;gap:4px;flex:1;overflow:auto}
+.nav a{padding:10px 12px;border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.nav a.active{background:var(--navy);color:#fff} .nav a.active svg{stroke:#fff}
+.nav-section{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin:12px 8px 4px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:14px 18px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.topbar h1{font-size:18px;font-weight:800;color:var(--navy)}
+.wrap{padding:18px;flex:1;max-width:1200px;margin:0 auto;width:100%}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px}
+.card h3{font-size:13px;font-weight:800;color:var(--navy)}
+.table{width:100%;overflow:auto;margin-top:10px} table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-size:10px;text-transform:uppercase;color:var(--text2);text-align:left;padding:10px 8px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid #F1F4F8;white-space:nowrap}
+.btn{padding:7px 11px;border-radius:8px;font-size:11px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-navy{background:var(--navy);color:#fff} .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--navy)} .btn-del{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}
+.badge{font-size:10px;padding:4px 8px;border-radius:20px;font-weight:700} .gold{background:#FFF7ED;border:1px solid #FFD8B8;color:#9A3412} .live{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A}
+.input{padding:10px 11px;border:1px solid var(--border);border-radius:10px;font-size:13px;outline:none;width:100%} .input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,.15)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.bottom{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.bottom-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.bottom a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:10px;font-size:9px;font-weight:600;color:var(--text2);text-decoration:none;cursor:pointer}
+.bottom a.active{background:var(--navy);color:#fff} .bottom a.active svg{stroke:#fff}
+@media(max-width:900px){.side{display:none}.bottom{display:block}.main{padding-bottom:78px}}
+.hidden{display:none}
+.toast{position:fixed;top:14px;right:14px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:0 12px 30px rgba(7,20,38,.12);min-width:260px}
+.toast-item.ok{background:#F0FDF4;border-color:#BBF7D0} .toast-item.err{background:#FEF2F2;border-color:#FECACA}
+.modal{position:fixed;inset:0;background:rgba(7,20,38,.55);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex} .modal-box{background:#fff;border-radius:16px;border:1px solid var(--border);max-width:360px;width:100%;padding:18px}
+</style>
+</head>
+<body>
+<div class="side">
+<div class="brand"><img src="logo.png" onerror="this.src='https://via.placeholder.com/36'"> Kwathu Campus <span style="font-size:9px;background:var(--navy);color:#fff;padding:2px 6px;border-radius:20px">ADMIN 30d</span></div>
+<div class="nav">
+<div class="nav-section">Admin 30d</div>
+<a href="admin-dashboard.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+<a class="active" href="admin-users.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+<a href="admin-dashboard.html#bank" onclick="localStorage.setItem('adminTab','bank');location.href='admin-dashboard.html'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/></svg>Bank</a>
+<a href="admin-settings.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+</div>
+<div style="padding:12px;border-top:1px solid var(--border)"><a onclick="openLogout()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;color:#DC2626;cursor:pointer;border:1px solid #FECACA;background:#FEF2F2">Logout</a></div>
+</div>
+
+<div class="main">
+<div class="topbar"><h1>Users — All 30d</h1><button class="btn btn-ghost" onclick="openLogout()">Logout</button></div>
+<div class="wrap">
+<div class="card"><h3>Search & Filter — 30d</h3><div class="row"><input id="search" class="input" placeholder="Search email / name / phone..." style="max-width:340px" oninput="render()"><select id="filterPlan" class="input" style="max-width:160px" onchange="render()"><option value="">All Plans 30d</option><option value="free">Free 30d</option><option value="gold">Gold 30d</option><option value="platinum">Platinum 30d</option></select><button class="btn btn-ghost" onclick="load()">Refresh</button></div><div style="margin-top:10px;font-size:11px;color:var(--text2)" id="count">Loading...</div></div>
+<div class="card"><h3>Users List — Verify & Delete</h3><div class="table"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Plan 30d</th><th>Slots</th><th>Expires</th><th>Verified</th><th>Actions</th></tr></thead><tbody id="body"></tbody></table></div></div>
+</div>
+</div>
+
+<div class="bottom"><div class="bottom-inner">
+<a href="admin-dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+<a class="active" href="admin-users.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+<a href="admin-dashboard.html" onclick="localStorage.setItem('adminTab','bank')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/></svg>Bank</a>
+<a href="admin-settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="logoutModal"><div class="modal-box"><h3>Logout Admin?</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px"><button class="btn btn-ghost" onclick="closeLogout()">Cancel</button><button class="btn btn-navy" onclick="doLogout('login')">Login</button><button class="btn btn-ghost" style="grid-column:1/-1" onclick="doLogout('home')">Home</button></div></div></div>
+
+<script>
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1",PROJECT_ID:"6ada0bb9000487d3a4d2",DATABASE_ID:"kwathu_db",COLLECTION_HOSTELS:"hostels",COLLECTION_PROFILES:"landlord_profiles",BUCKET_ID:"hostel_images"};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const account=new Appwrite.Account(client);const databases=new Appwrite.Databases(client);const storage=new Appwrite.Storage(client);
+let all=[];
+function toastMsg(t,title,msg){const c=document.getElementById('toast');const d=document.createElement('div');d.className=`toast-item ${t}`;d.innerHTML=`<div><b style="font-size:12px">${title}</b><div style="font-size:11px;color:#667085">${msg}</div></div>`;c.appendChild(d);setTimeout(()=>d.remove(),4000);}
+function openLogout(){document.getElementById('logoutModal').classList.add('open')}function closeLogout(){document.getElementById('logoutModal').classList.remove('open')}
+async function doLogout(dest){try{await account.deleteSession('current')}catch(e){}sessionStorage.setItem('noAutoRedirect','1');location.href=dest==='home'?'index.html':'login.html?force=1';}
+async function init(){try{await account.get();load();}catch(e){sessionStorage.setItem('noAutoRedirect','1');location.href='login.html?force=1';}}
+async function load(){try{const res=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,[Appwrite.Query.orderDesc('$createdAt'),Appwrite.Query.limit(100)]);all=res.documents;render();}catch(e){toastMsg('err','Load',e.message)}}
+function render(){
+ const q=document.getElementById('search').value.trim().toLowerCase();const f=document.getElementById('filterPlan').value;
+ let filtered=all.filter(p=>{const matchPlan=!f||p.plan===f;const text=(p.email+' '+(p.full_name||'')+' '+(p.phone||'')).toLowerCase();const matchSearch=!q||text.includes(q);return matchPlan&&matchSearch;});
+ document.getElementById('count').innerText=`Showing ${filtered.length} / ${all.length} — All 30d`;
+ document.getElementById('body').innerHTML=filtered.map(p=>`<tr><td>${p.full_name||'—'}</td><td style="font-size:11px">${p.email}</td><td>${p.phone||''}</td><td><span class="badge gold">${(p.plan||'free').toUpperCase()} 30d</span></td><td>${p.max_hostels||1}</td><td>${p.plan_expires_at?new Date(p.plan_expires_at).toLocaleDateString():''}</td><td>${p.is_verified?'<span class="badge live">Yes</span>':'<span class="badge" style="background:#FEF2F2;border:1px solid #FECACA;color:#DC2626">No</span>'}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap"><a class="btn btn-ghost" href="https://wa.me/${(p.phone||'').replace(/[^0-9]/g,'')}?text=Hi%20${encodeURIComponent(p.full_name||'')}">Msg</a><button class="btn btn-navy" onclick="verify('${p.$id}')">Verify</button><button class="btn btn-del" onclick="delUser('${p.$id}','${p.email}')">Delete</button></div></td></tr>`).join('');
+}
+async function verify(id){try{await databases.updateDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,id,{is_verified:true});toastMsg('ok','Verified','User verified 30d');load();}catch(e){toastMsg('err','Fail',e.message)}}
+async function delUser(id,email){if(!confirm('Delete '+email+'? Deletes profile + ALL hostels + images — IRREVERSIBLE — 30d data lost'))return;try{const hostels=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_HOSTELS,[Appwrite.Query.equal('landlord_id',id),Appwrite.Query.limit(100)]);for(const h of hostels.documents){if(h.image_file_ids)for(const fid of h.image_file_ids){try{await storage.deleteFile(CONFIG.BUCKET_ID,fid)}catch(e){}}await databases.deleteDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_HOSTELS,h.$id);}await databases.deleteDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,id);toastMsg('ok','Deleted','User '+email+' + hostels deleted');load();}catch(e){toastMsg('err','Delete fail',e.message)}}
+init();
+// PWA - no watermark
+if('serviceWorker' in navigator){ 
+  navigator.serviceWorker.register('/sw.js'); 
+}
+</script>
+</body>
+</html>

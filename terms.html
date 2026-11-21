@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Conditions — Kwathu Campus LAMAU</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#071426;--orange:#FF6A00;--orange2:#FF8C32;--border:#E4EAF2;--text:#142033;--text2:#667085;--light2:#F6F8FB}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--light2);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+nav{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:12px 5%}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--navy)}
+.logo img{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);object-fit:contain}
+.logo span{color:var(--orange)}
+.links{display:flex;gap:20px;align-items:center}
+.links a{font-size:13px;color:var(--text2);font-weight:600}.links a.active,.links a:hover{color:var(--orange)}
+.btn{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;border:1px solid var(--border);background:#fff;cursor:pointer}
+.btn-navy{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;box-shadow:0 6px 16px rgba(255,106,0,.2)}
+.menu{display:none;width:42px;height:42px;border:1px solid var(--border);border-radius:11px;background:#fff}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 40px;width:100%;flex:1}
+.hero{background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.hero h1{font-size:28px;font-weight:800;letter-spacing:-.8px;color:var(--navy)}
+.hero h1 span{color:var(--orange)}
+.hero p{font-size:13px;color:var(--text2);margin-top:8px;max-width:520px;line-height:1.7}
+.badge{display:inline-flex;padding:6px 10px;border-radius:20px;background:#FFF4EC;border:1px solid #FFD8B8;color:var(--orange);font-size:11px;font-weight:800;letter-spacing:.4px}
+.content{margin-top:20px;display:grid;gap:16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px}
+.card h2{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h2 i{width:28px;height:28px;border-radius:8px;background:#FFF0E5;color:var(--orange);display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:800}
+.card h3{font-size:13px;font-weight:700;margin:14px 0 6px;color:var(--navy)}
+.card p, .card li{font-size:13px;color:var(--text2);line-height:1.8}
+.card ul{padding-left:18px;display:grid;gap:6px;margin-top:6px}
+.notice{background:linear-gradient(110deg,#071426,#FF6A00);color:#fff;border-radius:16px;padding:20px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.notice h3{color:#fff;font-size:15px} .notice p{color:#FFEAD5;font-size:12px;margin-top:4px}
+footer{margin-top:auto;background:var(--navy);color:#fff;padding:24px 5% 16px}
+.footer-bottom{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#AAB8CC;font-size:11px}
+@media(max-width:700px){
+  nav{padding:0 16px;height:62px} .links{display:none;position:absolute;top:62px;left:0;right:0;background:#fff;padding:16px;border-bottom:1px solid var(--border);flex-direction:column;align-items:stretch} .links.open{display:flex} .menu{display:grid;place-items:center}
+  .wrap{padding:16px 13px 30px} .hero{flex-direction:column;align-items:flex-start;padding:20px;border-radius:16px} .hero h1{font-size:24px}
+  .card{padding:18px} .notice{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<nav>
+<a class="logo" href="index.html"><img src="logo.png" onerror="this.style.display='none'">Kwathu Campus <span>LAMAU.</span></a>
+<div class="links" id="links">
+<a href="index.html">Home</a>
+<a href="hostels.html">Browse Hostels</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="terms.html" class="active">Terms</a>
+<a href="login.html" class="btn">Login</a>
+<a href="register.html" class="btn btn-orange">List Hostel</a>
+</div>
+<button class="menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+</nav>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <span class="badge">LAMAU • UPDATED 2026</span>
+      <h1>Terms & <span>Conditions</span></h1>
+      <p>Kwathu Campus LAMAU is a listing platform connecting LAMAU students with verified landlords near Lilongwe Adventist University. By using our website, you agree to these terms.</p>
+    </div>
+    <div style="flex-shrink:0;text-align:right">
+      <div style="font-size:11px;color:#667085">Effective date</div>
+      <div style="font-size:13px;font-weight:700;color:#071426">25 October 2026</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <h2><i>1</i> Who we are</h2>
+      <p>Kwathu Campus LAMAU (Hostel Hunt MW) is operated by Lost Loyalty Tech. We do not own hostels, we do not collect rent, we do not act as an agent. We provide a platform for discovery and direct contact between students and landlords.</p>
+    </div>
+
+    <div class="card">
+      <h2><i>2</i> For Students</h2>
+      <ul>
+        <li>All listings are posted by landlords. We verify contact and location but you must visit in person before paying.</li>
+        <li>Do not pay rent to anyone claiming to be Kwathu admin. Pay directly to landlord after viewing and signing agreement.</li>
+        <li>We are not liable for any loss, damage, or dispute arising from rental agreements.</li>
+        <li>Report fake listings via WhatsApp 0988226320.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><i>3</i> For Landlords — Listing & Verification</h2>
+      <h3>Plans</h3>
+      <ul>
+        <li><b>Free Trial:</b> 1 hostel, manual approval by admin, limited visibility.</li>
+        <li><b>Gold & Platinum:</b> Multiple hostels, auto-approved, featured on homepage, priority support.</li>
+        <li>All plans require accurate information: real photos, correct price (MWK/month), real location near LAMAU.</li>
+      </ul>
+      <h3>Expiry & Renewal</h3>
+      <ul>
+        <li>Every listing has an expiry date set by its subscription. Expired listings are automatically hidden from search.</li>
+        <li>Free listings expire after the trial period. Gold and Platinum listings expire at end of subscription period.</li>
+        <li>To renew, contact admin or upgrade in your landlord dashboard.</li>
+      </ul>
+      <h3>Your Responsibilities</h3>
+      <ul>
+        <li>Upload only your own hostel photos. No downloaded images.</li>
+        <li>Keep availability, price and contact up to date.</li>
+        <li>Do not post hostels far from LAMAU — this platform is LAMAU only.</li>
+        <li>Any fraud, duplicate listings, or misleading prices will lead to removal and ban.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><i>4</i> Payments</h2>
+      <p>Payments for Gold/Platinum plans are made via Airtel Money / TNM Mpamba / Bank transfer to Lost Loyalty Tech. Payment details are shown after registration. We do not store your mobile money PIN. Subscriptions are non-refundable after activation.</p>
+    </div>
+
+    <div class="card">
+      <h2><i>5</i> Content & Conduct</h2>
+      <ul>
+        <li>No hate speech, pornographic images, or false information.</li>
+        <li>We reserve the right to edit, reject, or remove any listing without notice.</li>
+        <li>Repeated violations may result in permanent ban and blacklisting of phone number.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><i>6</i> Privacy</h2>
+      <p>We collect only what you provide: name, phone, hostel details and images. Your contact is shown publicly so students can reach you. We do not sell your data. You can request deletion via lostloyaltytech@gmail.com.</p>
+    </div>
+
+    <div class="card">
+      <h2><i>7</i> Limitation of Liability</h2>
+      <p>Kwathu Campus is provided "as is". We do not guarantee availability, safety, or quality of any hostel. We are not party to rental agreements. Maximum liability is limited to the amount you paid for your subscription in the last 3 months.</p>
+    </div>
+
+    <div class="card">
+      <h2><i>8</i> Changes to Terms</h2>
+      <p>We may update these terms at any time. Continued use after changes means you accept the new terms. Major changes will be announced on the website.</p>
+    </div>
+
+    <div class="notice">
+      <div>
+        <h3>Questions about these terms?</h3>
+        <p>Contact admin — WhatsApp 0988226320 or lostloyaltytech@gmail.com. We respond within 24 hours.</p>
+      </div>
+      <a href="https://wa.me/265988226320" target="_blank" class="btn" style="background:#fff;color:#071426;flex-shrink:0">Chat Admin →</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-bottom">
+    <span>© <span id="yr"></span> Kwathu Campus LAMAU — Hostel Hunt MW.</span>
+    <span>Powered by <b style="color:#fff">Lost Loyalty Tech</b></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}
+</script>
+</body>
+</html>

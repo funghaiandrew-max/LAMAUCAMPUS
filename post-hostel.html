@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Hostel — Kwathu 30d</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#101828;min-height:100vh;display:flex}
+:root{--navy:#071426;--orange:#FF6A00;--border:#E6EAF0;--text2:#667085}
+.side{width:260px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:20}
+.brand{padding:16px;display:flex;align-items:center;gap:10px;font-weight:900;color:var(--navy);border-bottom:1px solid var(--border)}
+.brand img{width:36px;height:36px;border-radius:10px;border:1px solid var(--border)}
+.nav{padding:10px;flex:1;display:flex;flex-direction:column;gap:4px;overflow:auto}
+.nav a{padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;color:var(--text2);text-decoration:none;display:flex;gap:10px;align-items:center}
+.nav a.active{background:var(--navy);color:#fff}
+.nav-section{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin:12px 8px 4px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:14px 18px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.wrap{padding:18px;max-width:900px;margin:0 auto;width:100%;flex:1}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:14px}
+.card h3{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--navy);margin-bottom:10px}
+.label{font-size:10px;font-weight:700;text-transform:uppercase;color:#98A2B3;margin-bottom:6px;display:block}
+.inp,select,textarea{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;outline:none;background:#fff}
+.inp:focus,select:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(7,20,38,.08)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fac{display:flex;flex-wrap:wrap;gap:8px}
+.fac label{border:1px solid var(--border);border-radius:20px;padding:6px 12px;font-size:11px;display:flex;gap:6px;align-items:center;background:#fff;cursor:pointer}
+.fac input{accent-color:var(--navy)}
+.drop{border:1.5px dashed var(--border);border-radius:12px;padding:18px;text-align:center;cursor:pointer;background:#F8FAFC}
+.drop:hover{border-color:var(--orange)}
+.preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.preview img{width:90px;height:75px;border-radius:10px;object-fit:cover;border:1px solid var(--border)}
+.submit{width:100%;margin-top:20px;padding:14px;border:none;border-radius:12px;background:var(--navy);color:#fff;font-size:14px;font-weight:800;cursor:pointer}
+.submit:disabled{opacity:.5}
+.btn{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--border);background:#fff;color:var(--navy);cursor:pointer;text-decoration:none}
+.toast{position:fixed;top:14px;right:14px;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast div{padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--border);box-shadow:0 12px 30px rgba(7,20,38,.12);font-size:12px}
+.progress{height:6px;background:#E6EAF0;border-radius:10px;overflow:hidden;margin-top:10px;display:none}
+.progress div{height:100%;background:linear-gradient(90deg,var(--navy),var(--orange));width:0%;transition:.3s}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);z-index:50;display:none;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.bottom-inner{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.bottom a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:10px;font-size:9px;font-weight:700;color:var(--text2);text-decoration:none}
+.bottom a.active{background:var(--navy);color:#fff}
+.bottom a svg{stroke:currentColor}
+@media(max-width:900px){.side{display:none}.bottom{display:block}.main{padding-bottom:84px}.topbar h1{font-size:16px}.wrap{padding:14px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="side">
+<div class="brand"><img src="logo.png" onerror="this.src='https://via.placeholder.com/36'"> Kwathu Campus</div>
+<div class="nav">
+<div class="nav-section">Main</div>
+<a href="landlord-dashboard.html">Dashboard</a>
+<a href="my-hostels.html">My Hostels</a>
+<a class="active" href="post-hostel.html">Post 30d</a>
+<div class="nav-section">Billing</div>
+<a href="activate.html">Activate Code</a>
+<a href="settings.html">Settings</a>
+</div>
+</div>
+
+<div class="main">
+<div class="topbar"><h1 id="hTitle">Post Hostel — 30d</h1><a class="btn" href="my-hostels.html">Manage</a></div>
+<div class="wrap">
+<div id="limit" style="font-size:12px;color:#667085">Checking plan...</div>
+
+<div class="card"><h3>Basic Info</h3>
+<div><span class="label">Title *</span><input id="title" class="inp" placeholder="Bethel Near LAMAU"></div>
+<div class="row" style="margin-top:12px">
+<div><span class="label">Location *</span><input id="location" class="inp" placeholder="Area 15 near LAMAU"></div>
+<div><span class="label">Price MWK *</span><input id="price" type="number" class="inp" placeholder="45000"></div>
+</div>
+<div class="row" style="margin-top:12px">
+<div><span class="label">Room Type</span><select id="room_type"><option>Single</option><option>Double</option><option>Shared (3+)</option><option>Self-contained</option><option>Bedsitter</option></select></div>
+<div><span class="label">Gender</span><select id="gender"><option value="">Any</option><option>Male</option><option>Female</option></select></div>
+</div>
+</div>
+
+<div class="card"><h3>Facilities</h3><div class="fac" id="facGrid"></div></div>
+
+<div class="card"><h3>Details</h3>
+<textarea id="desc" rows="3" class="inp" placeholder="Water 24/7, 3 mins to LAMAU..."></textarea>
+<div class="row" style="margin-top:12px">
+<div><span class="label">Phone *</span><input id="phone" class="inp" placeholder="0988226320"></div>
+<div><span class="label">WhatsApp</span><input id="wa" class="inp" placeholder="0988226320"></div>
+</div>
+</div>
+
+<div class="card"><h3>Images — <span id="imgLimit">loading</span></h3>
+<div class="drop" onclick="document.getElementById('files').click()"><b style="font-size:13px">Tap to upload</b><div style="font-size:11px;color:#667085;margin-top:4px">Free 3 / Gold 5 / Plat 8 — 30d</div></div>
+<input type="file" id="files" multiple accept="image/*" hidden>
+<div class="progress" id="prog"><div id="progBar"></div></div>
+<div class="preview" id="preview"></div>
+<div id="existing" style="font-size:11px;color:#667085;margin-top:8px"></div>
+</div>
+
+<button class="submit" id="submitBtn" onclick="postHostel()">POST HOSTEL — GO LIVE 30D →</button>
+<div id="msg" style="margin-top:12px;display:none;padding:12px;border-radius:12px;font-size:12px"></div>
+</div>
+</div>
+
+<div class="bottom"><div class="bottom-inner">
+<a href="landlord-dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Home</a>
+<a href="my-hostels.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Manage</a>
+<a class="active" href="post-hostel.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Post</a>
+<a href="activate.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/></svg>Code</a>
+<a href="settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CONFIG={ENDPOINT:"https://fra.cloud.appwrite.io/v1",PROJECT_ID:"6ada0bb9000487d3a4d2",DATABASE_ID:"kwathu_db",COLLECTION_HOSTELS:"hostels",COLLECTION_PROFILES:"landlord_profiles",BUCKET_ID:"hostel_images"};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const account=new Appwrite.Account(client);const databases=new Appwrite.Databases(client);const storage=new Appwrite.Storage(client);
+const FAC=["Water","Electricity","WiFi","Security","Fenced","Kitchen","Self-contained","Tiled","Parking","Near LAMAU"];
+document.getElementById('facGrid').innerHTML=FAC.map(f=>`<label><input type="checkbox" value="${f}"> ${f}</label>`).join('');
+let currentUser=null,profile=null,editId=new URLSearchParams(location.search).get('id'),existingIds=[],selected=[];
+
+function toast(m,t=''){const c=document.getElementById('toast');const d=document.createElement('div');d.textContent=m;d.style.borderColor=t==='err'?'#FECACA':t==='ok'?'#BBF7D0':'#E6EAF0';d.style.background=t==='err'?'#FEF2F2':t==='ok'?'#F0FDF4':'#fff';c.appendChild(d);setTimeout(()=>d.remove(),4000);}
+
+async function init(){
+ try{currentUser=await account.get();}catch(e){location.href='login.html?force=1';return;}
+ try{profile=await databases.getDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,currentUser.$id);}catch(e){
+  const list=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_PROFILES,[Appwrite.Query.equal('email',currentUser.email)]);
+  if(list.documents.length) profile=list.documents[0]; else profile={plan:'free',max_hostels:1,max_images:3,plan_expires_at:new Date(Date.now()+30*86400000).toISOString()};
+ }
+ document.getElementById('limit').textContent=`${(profile.plan||'free').toUpperCase()} 30D • ${profile.max_hostels} slots • ${profile.max_images} pics • Exp ${new Date(profile.plan_expires_at).toLocaleDateString()}`;
+ document.getElementById('imgLimit').textContent=`${profile.max_images} max`;
+ if(editId){
+  const h=await databases.getDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_HOSTELS,editId);
+  if(h.landlord_id!==currentUser.$id){toast('Not yours','err');return;}
+  document.getElementById('title').value=h.title;document.getElementById('location').value=h.location;document.getElementById('price').value=h.price;
+  document.getElementById('desc').value=h.description||'';document.getElementById('phone').value=h.contact_phone||'';document.getElementById('wa').value=h.whatsapp_number||'';
+  existingIds=h.image_file_ids||[];document.getElementById('existing').textContent=`Existing images: ${existingIds.length}`;
+  if(h.facilities) document.querySelectorAll('#facGrid input').forEach(i=>{if(h.facilities.includes(i.value)) i.checked=true;});
+  document.getElementById('hTitle').textContent='Edit Hostel — 30d';
+ }
+ if(!editId){
+  try{
+   const res=await databases.listDocuments(CONFIG.DATABASE_ID,CONFIG.COLLECTION_HOSTELS,[Appwrite.Query.equal('landlord_id',currentUser.$id)]);
+   if(res.documents.length>=profile.max_hostels){document.getElementById('msg').style.display='block';document.getElementById('msg').style.background='#FEF2F2';document.getElementById('msg').textContent=`Limit ${profile.max_hostels} reached — upgrade Gold/Plat 30d`;document.getElementById('submitBtn').disabled=true;}
+  }catch(e){}
+ }
+}
+
+document.getElementById('files').addEventListener('change',e=>{
+ selected=[...e.target.files];const max=profile?.max_images||3;
+ if(existingIds.length+selected.length>max){selected=selected.slice(0,max-existingIds.length);toast(`Max ${max} images — trimmed`,'err');}
+ const p=document.getElementById('preview');p.innerHTML='';selected.forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);p.appendChild(img);});
+});
+
+async function postHostel(){
+ const title=document.getElementById('title').value.trim();
+ const loc=document.getElementById('location').value.trim();
+ const price=Number(document.getElementById('price').value);
+ const desc=document.getElementById('desc').value.trim();
+ const phone=document.getElementById('phone').value.trim();
+ const wa=document.getElementById('wa').value.trim();
+ if(!title||!loc||!price){toast('Fill title, location, price','err');return;}
+ if(!phone){toast('Fill phone','err');return;}
+ const max=profile?.max_images||3;
+ if(existingIds.length+selected.length===0){toast('Add at least 1 image','err');return;}
+ if(existingIds.length+selected.length>max){toast(`Max ${max} images allowed — 30d`,'err');return;}
+ const btn=document.getElementById('submitBtn');btn.disabled=true;
+ const prog=document.getElementById('prog');const progBar=document.getElementById('progBar');
+ prog.style.display='block';
+ try{
+  let fileIds=[...existingIds];
+  if(selected.length>0){
+    btn.textContent=`UPLOADING ${selected.length} IMAGES IN PARALLEL...`;
+    // FAST PARALLEL UPLOAD — 4x faster than loop
+    let uploaded=0;
+    const uploads=selected.map(f=> 
+      storage.createFile(CONFIG.BUCKET_ID,Appwrite.ID.unique(),f).then(r=>{
+        uploaded++; progBar.style.width=`${Math.round((uploaded/selected.length)*100)}%`;
+        return r.$id;
+      })
+    );
+    const newIds=await Promise.all(uploads);
+    fileIds=[...fileIds,...newIds];
+  }
+  btn.textContent='SAVING HOSTEL...'; progBar.style.width='100%';
+  const isPaid=(profile.plan==='gold'||profile.plan==='platinum');
+  const expires=new Date(Date.now()+30*24*60*60*1000).toISOString();
+  
+  const data={
+   title: title,
+   location: loc,
+   price: price,
+   room_type: document.getElementById('room_type').value,
+   gender_preference: document.getElementById('gender').value,
+   distance_to_campus: 'Near LAMAU',
+   availability: 'Available',
+   description: desc || 'Near LAMAU campus',
+   contact_phone: String(phone),
+   whatsapp_number: String(wa || phone),
+   facilities: [...document.querySelectorAll('#facGrid input:checked')].map(i=>i.value),
+   image_file_ids: fileIds,
+   landlord_id: currentUser.$id,
+   is_approved: isPaid ? true : false,
+   expires_at: expires
+  };
+
+  if(editId) await databases.updateDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_HOSTELS,editId,data);
+  else await databases.createDocument(CONFIG.DATABASE_ID,CONFIG.COLLECTION_HOSTELS,Appwrite.ID.unique(),data);
+  
+  toast(isPaid?'Live now 30d!':'Posted — pending approval 24h — 30d','ok');
+  setTimeout(()=>location.href='my-hostels.html',900);
+ }catch(e){
+  toast(e.message,'err');
+  console.log(e);
+  btn.disabled=false;btn.textContent='POST HOSTEL — GO LIVE 30D →'; prog.style.display='none';
+ }
+}
+init();
+// PWA - no watermark
+if('serviceWorker' in navigator){ 
+  navigator.serviceWorker.register('/sw.js'); 
+}
+</script>
+</body>
+</html>

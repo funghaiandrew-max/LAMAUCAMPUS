@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landlord Dashboard — Kwathu Campus LAMAU</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#F6F8FB;color:#142033;min-height:100vh;display:flex}
+:root{--navy:#071426;--orange:#FF6A00;--orange2:#FF8C32;--border:#E4EAF2;--text2:#667085;--white:#fff;--light:#FFF8F0;--light2:#F4F7FB}
+.side{width:272px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:20}
+.brand{padding:16px;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--navy);border-bottom:1px solid var(--border)}
+.brand img{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);object-fit:contain}
+.brand small{font-size:9px;background:var(--navy);color:#fff;padding:2px 6px;border-radius:20px}
+.nav{padding:10px;display:flex;flex-direction:column;gap:4px;flex:1;overflow:auto}
+.nav a{padding:10px 12px;border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;transition:.15s}
+.nav a.active{background:var(--navy);color:#fff} .nav a.active svg{stroke:#fff}
+.nav a:hover{background:var(--light2);color:var(--navy)}
+.nav-section{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin:12px 8px 4px}
+.nav-bottom{padding:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:14px 18px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.topbar h1{font-size:18px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.wrap{padding:18px;flex:1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px} @media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}} @media(max-width:600px){.stats{grid-template-columns:1fr 1fr}}
+.stat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.stat b{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);display:block}
+.stat h2{font-size:20px;font-weight:800;color:var(--navy);margin-top:6px} .stat small{font-size:11px;color:var(--text2)}
+.stat .ic{width:36px;height:36px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center}
+.stat .ic.orange{background:linear-gradient(135deg,var(--orange),var(--orange2))}
+.grid{display:grid;grid-template-columns:1.6fr .9fr;gap:14px;margin-top:14px} @media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px}
+.card h3{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.4px}
+.list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.item{display:flex;gap:12px;border:1px solid var(--border);border-radius:12px;padding:10px;align-items:center;background:#fff;transition:.15s}
+.item:hover{border-color:#FFD8B8}
+.item img{width:84px;height:64px;border-radius:8px;object-fit:cover;background:var(--light2);flex-shrink:0}
+.info{flex:1;min-width:0} .info b{font-size:13px;color:var(--navy);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .info small{font-size:11px;color:var(--text2);display:block;margin-top:2px}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn{padding:7px 11px;border-radius:8px;font-size:11px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none}
+.btn-navy{background:var(--navy);color:#fff} .btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff} .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--navy)} .btn-del{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}
+.alert{padding:10px 12px;border-radius:10px;font-size:12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:12px}
+.alert.warn{background:#FFF7ED;border:1px solid #FFD8B8;color:#9A3412}
+.alert.info{background:#F4F7FB;border:1px solid var(--border);color:var(--navy)}
+.plan-box{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px} @media(max-width:600px){.plan-box{grid-template-columns:1fr}}
+.p{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff;position:relative}
+.p.active{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,0.12)} .p b{font-size:13px;color:var(--navy)} .p small{font-size:11px;color:var(--text2);display:block;margin-top:3px} .p .price{font-size:16px;font-weight:800;color:var(--navy);margin-top:6px}
+.inp{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:13px;outline:none;margin-top:8px} .inp:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,0.15)}
+.msg{margin-top:10px;padding:9px;border-radius:8px;font-size:11px;display:none} .msg.err{display:block;background:#FEF2F2;border:1px solid #FECACA;color:#DC2626} .msg.ok{display:block;background:#FFF7ED;border:1px solid #FFD8B8;color:#9A3412}
+.bottom{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.bottom-inner{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.bottom a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:10px;font-size:9px;font-weight:600;color:var(--text2);text-decoration:none;cursor:pointer}
+.bottom a.active{background:var(--navy);color:#fff} .bottom a.active svg{stroke:#fff}
+@media(max-width:900px){.side{display:none}.bottom{display:block}.main{padding-bottom:78px}.item{flex-direction:row}.topbar{padding:12px}}
+.modal{position:fixed;inset:0;background:rgba(7,20,38,.55);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;border:1px solid var(--border);max-width:360px;width:100%;padding:18px;box-shadow:0 20px 50px rgba(7,20,38,.2)}
+.modal-box h3{font-size:16px;font-weight:800;color:var(--navy)}
+.modal-box p{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.modal-actions .btn{justify-content:center;padding:11px}
+</style>
+</head>
+<body>
+<div class="side">
+<div class="brand"><img src="logo.png" onerror="this.src='https://via.placeholder.com/36'"> Kwathu Campus <small>LAMAU</small></div>
+<div class="nav">
+<div class="nav-section">Main</div>
+<a class="active" href="landlord-dashboard.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Home — Updates</a>
+<a href="my-hostels.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Manage Hostels</a>
+<a href="post-hostel.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Post Hostel</a>
+<div class="nav-section">Billing</div>
+<a href="subscription.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Subscription — 1 Month</a>
+<a href="activate.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Activate Code</a>
+<div class="nav-section">Account</div>
+<a href="settings.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 15a1.65 1.65 0 0 0-1-1.51V13a2 2 0 0 1 0-4v-.49c0-.6.38-1.13 1-1.51A1.65 1.65 0 0 0 9 5a1.65 1.65 0 0 0 1.82-.33l.06-.06A2 2 0 1 1 13.71 1.8l-.06.06A1.65 1.65 0 0 0 12 3a1.65 1.65 0 0 0-1 1.51V5a2 2 0 0 1 0 4v.49c0 .6.38 1.13 1 1.51z"/></svg>Settings & Delete</a>
+<a href="terms.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Terms</a>
+<a href="contact.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>Support 0988226320</a>
+<a href="hostels.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Browse LAMAU</a>
+</div>
+<div class="nav-bottom">
+<a href="https://wa.me/265988226320?text=Hello%20Admin%20LAMAU" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:600;color:var(--navy);border:1px solid var(--border);background:#fff;text-decoration:none">Message Admin</a>
+<a onclick="openLogout()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;color:#DC2626;cursor:pointer;border:1px solid #FECACA;background:#FEF2F2">Logout</a>
+</div>
+</div>
+
+<div class="main">
+<div class="topbar">
+<h1>Dashboard — LAMAU <span id="uemail" style="font-size:11px;color:var(--text2);font-weight:500"></span></h1>
+<div style="display:flex;gap:6px"><a href="post-hostel.html" class="btn btn-navy">Post</a><button class="btn btn-ghost" onclick="openLogout()">Logout</button><button class="btn btn-ghost" onclick="load()">Refresh</button></div>
+</div>
+<div class="wrap">
+<div id="alerts"></div>
+<div class="stats">
+<div class="stat"><div><b>Your Hostels</b><h2 id="sCount">—</h2><small>Posted</small></div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div></div>
+<div class="stat"><div><b>Slots Used</b><h2 id="sSlots">—/—</h2><small id="sSlotsTxt">Limit</small></div><div class="ic orange"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div>
+<div class="stat"><div><b>Plan — 1 Month</b><h2 id="sPlan">—</h2><small id="sExpiry">—</small></div><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div></div>
+<div class="stat"><div><b>Images / Hostel</b><h2 id="sImg">—</h2><small>All 30d renew</small></div><div class="ic orange"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Home — Recent Updates & Listings</h3>
+<div id="homeUpdates" style="margin-top:10px"></div>
+<div class="list" id="list"><div style="font-size:12px;color:var(--text2);padding:20px;text-align:center">Loading LAMAU hostels...</div></div>
+</div>
+<div>
+<div class="card">
+<h3>Subscription — All 30 Days</h3>
+<p style="font-size:11px;color:var(--text2);margin-top:4px" id="planText">Loading...</p>
+<div class="plan-box">
+<div class="p" id="pFree"><b>Free — 30d</b><small>1 hostel • 3 pics • manual</small><div class="price">Free</div></div>
+<div class="p" id="pGold"><b>Gold — 30d</b><small>3 hostels • 5 pics • auto</small><div class="price">MK 6,000</div></div>
+<div class="p" id="pPlat"><b>Plat — 30d</b><small>4 hostels • 8 pics • top</small><div class="price">MK 10,000</div></div>
+</div>
+<div style="margin-top:10px;display:flex;gap:6px"><a href="subscription.html" class="btn btn-ghost" style="flex:1;justify-content:center">Plans</a><a href="activate.html" class="btn btn-orange" style="flex:1;justify-content:center">Activate</a></div>
+</div>
+<div class="card" style="margin-top:12px">
+<h3>Activate Code — 30d All</h3>
+<input id="codeInput" class="inp" placeholder="KWATHU-GOLD-XXXX">
+<div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-navy" style="flex:1;justify-content:center" onclick="activateCode()">Activate</button></div>
+<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn btn-ghost" style="font-size:10px" onclick="requestCode('gold')">Request Gold 30d</button>
+<button class="btn btn-ghost" style="font-size:10px" onclick="requestCode('platinum')">Request Plat 30d</button>
+</div>
+<div class="msg err" id="err"></div><div class="msg ok" id="ok"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="bottom"><div class="bottom-inner">
+<a class="active" href="landlord-dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Home</a>
+<a href="my-hostels.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Manage</a>
+<a href="post-hostel.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Post</a>
+<a href="activate.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/></svg>Code</a>
+<a onclick="openLogout()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Logout</a>
+</div></div>
+
+<div class="modal" id="logoutModal">
+<div class="modal-box">
+<h3>Logout?</h3>
+<p>Choose where to go after logout. Your LAMAU listings stay safe, they just expire after 30 days if not renewed.</p>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeLogout()">Cancel</button>
+<button class="btn btn-navy" onclick="doLogout('login')">Logout → Login</button>
+<button class="btn btn-orange" onclick="doLogout('home')" style="grid-column:1/-1">Home → kwathu home</button>
+</div>
+</div>
+</div>
+<script>
+// PWA - no watermark
+if('serviceWorker' in navigator){ 
+  navigator.serviceWorker.register('/sw.js'); 
+}
+const CONFIG={
+ ENDPOINT:"https://fra.cloud.appwrite.io/v1",
+ PROJECT_ID:"6ada0bb9000487d3a4d2",
+ DATABASE_ID:"kwathu_db",
+ COLLECTION_HOSTELS:"hostels",
+ COLLECTION_PROFILES:"landlord_profiles",
+ COLLECTION_CODES:"activation_codes",
+ BUCKET_ID:"hostel_images",
+ ADMIN_WA:"265988226320"
+};
+const client=new Appwrite.Client().setEndpoint(CONFIG.ENDPOINT).setProject(CONFIG.PROJECT_ID);
+const account=new Appwrite.Account(client);
+const databases=new Appwrite.Databases(client);
+const storage=new Appwrite.Storage(client);
+let currentUser=null, profile=null;
+const PLANS={free:{max_hostels:1,max_images:3,days:30,label:'Free — 30d'},gold:{max_hostels:3,max_images:5,days:30,label:'Gold — 30d'},platinum:{max_hostels:4,max_images:8,days:30,label:'Platinum — 30d'}};
+
+function fileUrl(fileId){
+  return `${CONFIG.ENDPOINT}/storage/buckets/${CONFIG.BUCKET_ID}/files/${fileId}/view?project=${CONFIG.PROJECT_ID}`;
+}
+function openLogout(){document.getElementById('logoutModal').classList.add('open')}
+function closeLogout(){document.getElementById('logoutModal').classList.remove('open')}
+document.getElementById('logoutModal').addEventListener('click',e=>{if(e.target.id==='logoutModal')closeLogout()});
+
+async function doLogout(dest){
+ try{ await account.deleteSession('current'); }catch(e){}
+ sessionStorage.setItem('noAutoRedirect','1');
+ if(dest==='home'){ location.href='index.html'; }else{ location.href='login.html?force=1'; }
+}
+
+async function init(){
+ try{ currentUser=await account.get(); }catch(e){ sessionStorage.setItem('noAutoRedirect','1'); location.href='login.html?force=1'; return; }
+ document.getElementById('uemail').innerText=currentUser.email;
+ try{ profile=await databases.getDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_PROFILES, currentUser.$id); }catch(e){ profile=null }
+ if(!profile){
+  try{
+   profile=await databases.createDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_PROFILES, currentUser.$id, {
+    email:currentUser.email, full_name:currentUser.name||currentUser.email, plan:'free', max_hostels:1, max_images:3,
+    plan_expires_at:new Date(Date.now()+30*24*60*60*1000).toISOString()
+   });
+  }catch(e){ profile={plan:'free', max_hostels:1, max_images:3, plan_expires_at:new Date(Date.now()+30*24*60*60*1000).toISOString()} }
+ }
+ renderPlan(); load();
+}
+function renderPlan(){
+ if(!profile) return;
+ const plan=profile.plan||'free';
+ document.getElementById('sPlan').innerText=plan.toUpperCase();
+ document.getElementById('sImg').innerText=profile.max_images||PLANS[plan].max_images;
+ const expDate=profile.plan_expires_at? new Date(profile.plan_expires_at): null;
+ const daysLeft=expDate? Math.ceil((expDate - new Date())/86400000): 0;
+ document.getElementById('sExpiry').innerText=expDate? `${daysLeft}d left • ${expDate.toLocaleDateString()} — 30d all` : '—';
+ document.getElementById('planText').innerText=`${PLANS[plan].label} • ${profile.max_hostels} slots • ${profile.max_images} pics • ${expDate?expDate.toLocaleDateString():'—'} — ALL 30 DAYS`;
+ document.querySelectorAll('.p').forEach(el=>el.classList.remove('active'));
+ const map={free:'pFree',gold:'pGold',platinum:'pPlat'}; if(map[plan]) document.getElementById(map[plan]).classList.add('active');
+ const alerts=document.getElementById('alerts');
+ let html='';
+ if(daysLeft<=3 && daysLeft>=0){ html+=`<div class="alert warn"><div><b>Renew soon!</b> ${plan} expires in ${daysLeft} days — all plans 30 days. WhatsApp 0988226320</div></div>`}
+ if(daysLeft<0){ html+=`<div class="alert warn"><div><b>Expired!</b> Expired ${Math.abs(daysLeft)} days ago — hostels hidden from LAMAU browse until renew.</div></div>`}
+ alerts.innerHTML=html;
+ document.getElementById('homeUpdates').innerHTML=`<div class="alert info"><div><b>Home Updates — LAMAU</b><br>• All subs = 30 days<br>• Free manual, Gold/Plat auto via code<br>• Manage → edit/delete<br>• Settings → delete account<br>• Support 0988226320</div></div>`;
+}
+async function load(){
+ try{
+  const res=await databases.listDocuments(CONFIG.DATABASE_ID, CONFIG.COLLECTION_HOSTELS, [Appwrite.Query.equal('landlord_id', currentUser.$id), Appwrite.Query.orderDesc('$createdAt'), Appwrite.Query.limit(100)]);
+  const docs=res.documents; const max=profile?.max_hostels||1;
+  document.getElementById('sCount').innerText=docs.length;
+  document.getElementById('sSlots').innerText=`${docs.length}/${max}`;
+  document.getElementById('sSlotsTxt').innerText=docs.length>=max?'Limit reached — upgrade 30d':'Can post';
+  const list=document.getElementById('list');
+  if(!docs.length){ list.innerHTML='<div style="padding:18px;text-align:center;border:1px dashed var(--border);border-radius:10px;background:var(--light2);font-size:12px">No hostels yet — Post LAMAU hostel</div>'; return; }
+  list.innerHTML=docs.map(h=>{
+   let img='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400';
+   if(h.image_file_ids && h.image_file_ids[0]){ img=fileUrl(h.image_file_ids[0]); }
+   const expired=h.expires_at && new Date(h.expires_at)<new Date();
+   return `<div class="item" style="${expired?'opacity:.6':''}"><img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400'"><div class="info"><b>${h.title} ${expired?'(Expired)':''}</b><small>MWK ${Number(h.price).toLocaleString()} • ${h.location||'LAMAU'} • ${h.expires_at? new Date(h.expires_at).toLocaleDateString():''}</small></div><div class="actions"><button class="btn btn-ghost" onclick="location.href='hostel-details.html?id=${h.$id}'">View</button><button class="btn btn-ghost" onclick="location.href='post-hostel.html?id=${h.$id}'">Edit</button><button class="btn btn-del" onclick="delHostel('${h.$id}')">Del</button></div></div>`;
+  }).join('');
+ }catch(e){ document.getElementById('list').innerHTML=`Error: ${e.message}`; }
+}
+function requestCode(plan){
+ const msg=`Hello Admin, I want ${plan.toUpperCase()} 30-DAY for LAMAU. Email: ${currentUser.email} Name: ${currentUser.name}`;
+ window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(msg)}`,'_blank');
+ document.getElementById('ok').innerText=`WhatsApp opened — Pay MK ${plan==='gold'?'6k':'10k'} for 30d`; document.getElementById('ok').style.display='block';
+}
+async function activateCode(){
+ const code=document.getElementById('codeInput').value.trim().toUpperCase();
+ const err=document.getElementById('err'); const ok=document.getElementById('ok');
+ err.style.display='none'; ok.style.display='none';
+ if(!code){ err.innerText='Paste code'; err.style.display='block'; return; }
+ try{
+  const res=await databases.listDocuments(CONFIG.DATABASE_ID, CONFIG.COLLECTION_CODES, [Appwrite.Query.equal('code', code), Appwrite.Query.limit(1)]);
+  if(!res.documents.length){ err.innerText='Invalid code'; err.style.display='block'; return; }
+  const codeDoc=res.documents[0];
+  if(codeDoc.is_used){ err.innerText='Code used'; err.style.display='block'; return; }
+  const planType=codeDoc.plan_type;
+  await databases.updateDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_CODES, codeDoc.$id, {is_used:true, used_by:currentUser.$id, used_at:new Date().toISOString()});
+  const p=PLANS[planType];
+  const newExpiry=new Date(Date.now()+30*24*60*60*1000).toISOString();
+  await databases.updateDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_PROFILES, currentUser.$id, {plan:planType, max_hostels:p.max_hostels, max_images:p.max_images, plan_expires_at:newExpiry});
+  ok.innerText=`${planType.toUpperCase()} 30d activated`; ok.style.display='block'; setTimeout(()=>location.reload(), 1000);
+ }catch(e){ err.innerText=e.message; err.style.display='block'; }
+}
+async function delHostel(id){
+ if(!confirm('Delete hostel?')) return;
+ try{
+  const doc=await databases.getDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_HOSTELS, id);
+  if(doc.image_file_ids){ for(const fid of doc.image_file_ids){ try{ await storage.deleteFile(CONFIG.BUCKET_ID, fid); }catch(e){} } }
+  await databases.deleteDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTION_HOSTELS, id); load();
+ }catch(e){ alert(e.message) }
+}
+init();
+</script>
+</body>
+</html>

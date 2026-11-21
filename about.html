@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Kwathu Campus LAMAU Only</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#071426">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#F6F8FB;color:#142033;min-height:100vh;display:flex;flex-direction:column}
+:root{--navy:#071426;--orange:#FF6A00;--orange2:#FF8C32;--border:#E4EAF2;--text2:#667085;--light:#FFF8F0;--white:#fff}
+nav{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:12px 20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--navy)}
+.logo img{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);object-fit:contain;background:#fff}
+.logo span{color:var(--orange)}
+.btn{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--navy)} .btn-navy{background:var(--navy);color:#fff} .btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 6px 16px rgba(255,106,0,0.25)}
+.wrap{max-width:1120px;margin:0 auto;padding:24px 20px;width:100%;flex:1}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:38px;font-weight:900;color:var(--navy);line-height:.95;letter-spacing:-.8px}
+.hero h1 span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:14px;color:var(--text2);margin-top:12px;line-height:1.7}
+.img-card{border:1px solid var(--border);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 12px 28px rgba(7,20,38,0.08);position:relative}
+.img-card img{width:100%;height:340px;object-fit:cover;display:block}
+.img-card .overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(7,20,38,0.9),transparent);padding:16px;color:#fff}
+.badge-lamau{display:inline-flex;align-items:center;gap:6px;background:var(--light);border:1px solid #FFD8B8;color:var(--navy);padding:5px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+.section{margin-top:28px}
+.section-title{font-size:18px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media(max-width:900px){.grid3{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}
+.card .ic{width:38px;height:38px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.card .ic.orange{background:linear-gradient(135deg,var(--orange),var(--orange2))}
+.card b{font-size:14px;color:var(--navy);display:block}
+.card p{font-size:12.5px;color:var(--text2);margin-top:6px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.list div{display:flex;gap:8px;font-size:12.5px;line-height:1.5}
+.list div svg{flex-shrink:0;margin-top:2px}
+.callout{background:linear-gradient(110deg,#071426,#FF6A00);border-radius:16px;padding:20px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:28px}
+@media(max-width:700px){.callout{flex-direction:column;align-items:flex-start}}
+footer{margin-top:auto;background:var(--navy);color:#fff;padding:22px 5% 14px}
+.footer-top{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-bottom{max-width:1120px;margin:18px auto 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#AAB8CC;font-size:10px}
+</style>
+</head>
+<body>
+<nav>
+<div class="logo"><img src="logo.png" onerror="this.src='https://via.placeholder.com/36'"> Kwathu Campus <span>LAMAU.</span></div>
+<div style="display:flex;gap:8px">
+<a href="index.html" class="btn btn-ghost">Home</a>
+<a href="hostels.html" class="btn btn-ghost">Browse Hostels</a>
+<a href="register.html" class="btn btn-orange">List Hostel</a>
+</div>
+</nav>
+<div class="wrap">
+<div class="hero">
+<div>
+<div class="badge-lamau"><span style="width:6px;height:6px;background:var(--orange);border-radius:50%;display:inline-block"></span> LAMAU ONLY • ORANGE PIN = HOME</div>
+<h1>Built for <span>LAMAU</span> students only — not for everyone</h1>
+<p><b>Kwathu Campus</b> means "Ours" in Chichewa. We built this for <b>Lilongwe Academy, Malawi University - LAMAU</b> students who waste weeks walking around looking for hostels, paying brokers MWK 5,000 viewing fees, finding fake Facebook photos.</p>
+<p style="margin-top:10px">Here: <b>only LAMAU area hostels</b>. Real MWK prices. Real photos (3-8 max). Direct WhatsApp to landlord. Expired hostels auto hidden. No middleman. No scams.</p>
+<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+<a href="hostels.html" class="btn btn-orange">Browse LAMAU Hostels →</a>
+<a href="contact.html" class="btn btn-ghost">Contact Admin 0988226320</a>
+</div>
+</div>
+<div class="img-card">
+<img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800" alt="LAMAU hostels">
+<div class="overlay"><b style="font-size:14px">For LAMAU students — Area 15, Area 25, Ngwenya</b><div style="font-size:11px;opacity:.85;margin-top:2px">Distance to LAMAU, price, gender, room type — all verified by admin funghaiandrew@gmail.com</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> How Kwathu LAMAU Works</div>
+<div class="grid3">
+<div class="card"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><b>For LAMAU Students — Free</b><p>Browse free, no account needed. Filter by MWK budget, single/double/self-contained, female/male/mixed. See distance to LAMAU gate in mins walk. Call or WhatsApp landlord direct. No viewing fees. Share link to friends.</p>
+<div class="list"><div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Real photos, not renders</div><div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Direct contact, no broker</div><div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Expired = auto hidden</div></div>
+</div>
+<div class="card"><div class="ic orange"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div><b>For Landlords near LAMAU</b><p>Only if your hostel is near LAMAU campus. We check location. Plans enforce slots automatically via backend, not just JS.</p>
+<div class="list">
+<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <b>Free:</b> 1 hostel, 3 pics, 30 days — manual admin approval (24h)</div>
+<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <b>Gold MK6,000:</b> 3 hostels, 5 pics, 60 days — auto live — code KWATHU-GOLD-XXXX (one use)</div>
+<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <b>Platinum MK10,000:</b> 4 hostels, 8 pics, 90 days top listing — code KWATHU-PLAT-XXXX</div>
+<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Codes generated only by admin funghaiandrew@gmail.com after Airtel Money/Mpamba — no reuse</div>
+</div>
+</div>
+<div class="card"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><b>Verified & Safe — LAMAU Trust</b><p>We hide expired hostels automatically. Free = 30 days, Gold = 60, Platinum = 90. After expiry landlord must renew or listing disappears from browse.</p>
+<div class="list"><div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Admin approves Free manually</div><div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Gold/Plat auto approved via code</div><div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Report fake: WhatsApp 0988226320</div></div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg> Why LAMAU Only?</div>
+<div class="grid2">
+<div class="card"><b>Problem we saw at LAMAU</b><p>Students walking 5 hours around Area 15, 25, Ngwenya. Brokers asking MWK 3k-5k just to show room. Facebook posts from 2022 still up, hostel already full. No price, no gender info, no distance to campus. Landlords with good hostels can't reach students.</p></div>
+<div class="card"><b>Our solution — Kwathu = Ours</b><p>One place for LAMAU. Orange pin in logo = home. All hostels must be within walking distance to LAMAU. We show: exact location, price/month, room type, gender preference, distance to campus (5 mins walk), availability, facilities (water, WiFi, security), direct phone/WhatsApp. Free tier exists so even small landlord can list, but we enforce expiry so old listings disappear.</p></div>
+</div>
+</div>
+
+<div class="callout">
+<div><b style="font-size:16px">Own a hostel near LAMAU? List today.</b><div style="font-size:12px;opacity:.9;margin-top:4px;line-height:1.5">Message admin on WhatsApp 0988226320 or email lostloyaltytech@gmail.com — Free manual approval or Gold/Platinum code after payment. No reuse of codes.</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><a href="register.html" class="btn" style="background:#fff;color:#071426">List Your Hostel →</a><a href="https://wa.me/265988226320?text=Hello%20Admin%20LAMAU%20I%20want%20to%20list%20my%20hostel" target="_blank" class="btn btn-ghost" style="background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff">WhatsApp Admin</a></div>
+</div>
+
+</div>
+<footer>
+<div class="footer-top"><div><b>Kwathu Campus LAMAU.</b><div style="font-size:11px;color:#AAB8CC;margin-top:4px">Orange pin = home near LAMAU. Admin funghaiandrew@gmail.com — 0988226320</div></div><div style="display:flex;gap:14px;font-size:11px"><a href="hostels.html" style="color:#AAB8CC">Browse</a><a href="contact.html" style="color:#AAB8CC">Contact</a><a href="terms.html" style="color:#AAB8CC">Terms</a></div></div>
+<div class="footer-bottom"><span>© <span id="yr"></span> Kwathu Campus — LAMAU Only — Powered by Lost Loyalty Tech</span><span>lostloyaltytech@gmail.com • 0988226320</span></div>
+</footer>
+<script>
+
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js'); }
+
+document.getElementById('yr').innerText=new Date().getFullYear();</script>
+</body>
+</html>
